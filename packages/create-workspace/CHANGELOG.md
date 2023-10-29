@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.1](https://github.com/tinybudgie/packages/compare/create-workspace-0.1.0...create-workspace-0.1.1) (2023-10-29)
+
+
+### Bug Fixes
+
+* bin js import ([50640ed](https://github.com/tinybudgie/packages/commit/50640edaf92fc6c5985d5f0151eb26ff8d5d9cda))
+
+
+
 # 0.1.0 (2023-10-29)
 
 
