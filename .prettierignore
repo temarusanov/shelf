@@ -1,0 +1,14 @@
+.prettierignore
+.docusaurus/
+
+/dist
+/coverage
+
+*.yml
+*.yaml
+
+*.graphql
+*.gql
+
+*.md
+/.nx/cache

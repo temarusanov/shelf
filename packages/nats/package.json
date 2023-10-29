@@ -1,0 +1,12 @@
+{
+  "name": "@tinybudgie/nats",
+  "version": "1.1.1",
+  "dependencies": {
+    "@golevelup/nestjs-discovery": "4.0.0",
+    "@nestjs/common": "10.2.7",
+    "@nestjs/core": "10.2.7",
+    "lodash": "4.17.21",
+    "nats": "^2.16.0",
+    "@tinybudgie/health-checks": "2.1.1"
+  }
+}
