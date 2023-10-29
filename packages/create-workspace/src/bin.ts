@@ -12,7 +12,7 @@ import { extract } from 'tar';
 import hostedGitInfo from 'hosted-git-info';
 import chalk from 'chalk';
 
-const WORKSPACE_GITHUB_URL = 'https://github.com/temarusanov/workspace#main';
+const WORKSPACE_GITHUB_URL = 'https://github.com/tinybudgie/workspace#main';
 
 async function ensureDirIsEmpty(dir) {
   try {
@@ -62,7 +62,7 @@ function downloadTarball(url, type, dest) {
           return reject({ code, message: res.statusMessage });
         }
         if (code >= 300) {
-          return downloadTarball(new URL(res.headers.location), type, dest)
+          return downloadTarball(new URL(res.headers.location!), type, dest)
             .then(resolve)
             .catch(reject);
         }
