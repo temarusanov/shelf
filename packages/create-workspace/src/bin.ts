@@ -37,9 +37,6 @@ async function ensureDir(dir) {
 }
 
 async function prepareProject(dest) {
-  fs.rm(`${dest}/libs/external`, { recursive: true }).catch(() => {});
-  fs.rm(`${dest}/tools/create-workspace`, { recursive: true }).catch(() => {});
-  fs.rm(`${dest}/tools/scripts`, { recursive: true }).catch(() => {});
   fs.rm(`${dest}/.github`, { recursive: true }).catch(() => {});
 
   const nxJsonFilePath = `${dest}/nx.json`;
