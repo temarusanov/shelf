@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.1](https://github.com/tinybudgie/packages/compare/nats-0.1.0...nats-0.1.1) (2023-10-29)
+
+
+### Bug Fixes
+
+* health-checks version ([4d9d6a8](https://github.com/tinybudgie/packages/commit/4d9d6a8875a6c10360f90606264492b337c83a30))
+
+
+
 # 0.1.0 (2023-10-29)
 
 
