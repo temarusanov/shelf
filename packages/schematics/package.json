@@ -7,7 +7,7 @@
   "dependencies": {
     "@actions/exec": "^1.1.1",
     "@nx/devkit": "17.0.1",
-    "@nx/js": "17.0.2",
+    "@nx/js": "17.0.1",
     "typescript": "^5.2.2",
     "@nx/eslint": "17.0.1"
   }
