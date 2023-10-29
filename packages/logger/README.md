@@ -8,5 +8,5 @@ How to find a balance between logs, and turn on only necessary logs?
 npm i --save @tinybudgie/logger
 ```
 
-[Documentation](https://tinybudgie.github.io/docs/workspace/techniques/logging)
+[Documentation](https://tinybudgie.github.io/docs/packages/logging)
 
