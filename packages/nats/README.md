@@ -6,5 +6,5 @@ NestJS does not provide full NATS support in their framework. Let's create our o
 npm i --save @tinybudgie/nats
 ```
 
-[Documentation](https://temarusanov.github.io/dev-notes/workspace/techniques/nats)
+[Documentation](https://tinybudgie.github.io/docs/workspace/techniques/nats)
 

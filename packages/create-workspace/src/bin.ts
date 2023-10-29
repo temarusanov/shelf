@@ -110,7 +110,7 @@ async function main(argv_) {
   console.log(
     `\n${chalk.green('Project was successfully created!')}\n${chalk.blue(
       'Documentation:'
-    )} https://temarusanov.github.io/dev-notes/\n\nNext steps:\n   - git init --initial-branch=main\n   - nvm install\n   - npm install\n`
+    )} https://tinybudgie.github.io/docs/\n\nNext steps:\n   - git init --initial-branch=main\n   - nvm install\n   - npm install\n`
   );
 }
 

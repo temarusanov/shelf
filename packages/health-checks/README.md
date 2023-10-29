@@ -8,5 +8,5 @@ How to run an application that does not depend on a database, kafka or any other
 npm i --save @tinybudgie/health-checks   
 ```
 
-[Documentation](https://temarusanov.github.io/dev-notes/workspace/techniques/health-checks)
+[Documentation](https://tinybudgie.github.io/docs/workspace/techniques/health-checks)
 
