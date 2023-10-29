@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.2](https://github.com/tinybudgie/packages/compare/create-workspace-0.1.1...create-workspace-0.1.2) (2023-10-29)
+
+
+### Bug Fixes
+
+* convert js to ts to properly build package ([a512269](https://github.com/tinybudgie/packages/commit/a5122699e02721d9a14ecab6029514ec58ab8808))
+
+
+
 ## [0.1.1](https://github.com/tinybudgie/packages/compare/create-workspace-0.1.0...create-workspace-0.1.1) (2023-10-29)
 
 
