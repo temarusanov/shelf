@@ -2,7 +2,7 @@
   "name": "@tinybudgie/create-workspace",
   "version": "0.1.0",
   "type": "module",
-  "bin": "./bin.ts",
+  "bin": "./src/bin.js",
   "dependencies": {
     "hosted-git-info": "^4.0.0",
     "mri": "^1.1.4",

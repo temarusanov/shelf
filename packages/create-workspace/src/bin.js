@@ -62,7 +62,7 @@ function downloadTarball(url, type, dest) {
           return reject({ code, message: res.statusMessage });
         }
         if (code >= 300) {
-          return downloadTarball(new URL(res.headers.location!), type, dest)
+          return downloadTarball(new URL(res.headers.location), type, dest)
             .then(resolve)
             .catch(reject);
         }
