@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.1](https://github.com/tinybudgie/packages/compare/schematics-0.1.0...schematics-0.1.1) (2023-10-29)
+
+
+### Bug Fixes
+
+* downgrade nx/js version to 17.0.1 ([5654d28](https://github.com/tinybudgie/packages/commit/5654d287b916879a05bc3ea41cb1232b7e496400))
+
+
+
 # 0.1.0 (2023-10-29)
 
 
