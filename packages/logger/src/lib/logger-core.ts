@@ -121,18 +121,19 @@ export class LoggerCore implements LoggerInterface {
 
         let computedMessage = ''
 
-        const { json } = this._config
+        const { json, formatter } = this._config
+        const formatedMessage = formatter ? formatter(message) : message
 
         if (json) {
             computedMessage = this._createJsonLog({
-                message,
+                message: formatedMessage,
                 label,
                 level: logLevel,
                 stack,
             })
         } else {
             computedMessage = this._createDefaultLog({
-                message,
+                message: formatedMessage,
                 label,
                 level: logLevel,
                 stack,
@@ -208,7 +209,7 @@ export class LoggerCore implements LoggerInterface {
             return {}
         }
 
-        return options
+        return options as LogMethodOptions
     }
 
     private _findOptionsAndStack(args: unknown[]): {

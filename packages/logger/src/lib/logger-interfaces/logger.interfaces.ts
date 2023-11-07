@@ -50,4 +50,6 @@ export interface LoggerConfig {
         message?: string
         stack?: string
     }
+
+    formatter?: (message: any) => any
 }
