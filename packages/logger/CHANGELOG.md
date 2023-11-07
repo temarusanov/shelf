@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.2.0](https://github.com/tinybudgie/packages/compare/logger-0.1.0...logger-0.2.0) (2023-11-07)
+
+
+### Features
+
+* add optional formatter fn ([2d3111c](https://github.com/tinybudgie/packages/commit/2d3111cead43aef090b265e21b494354a3708332))
+
+
+
 # 0.1.0 (2023-10-29)
 
 
