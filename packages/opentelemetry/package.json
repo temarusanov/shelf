@@ -1,6 +1,6 @@
 {
   "name": "@tinybudgie/opentelemetry",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "dependencies": {
     "@opentelemetry/sdk-node": "0.43.0",
     "@opentelemetry/semantic-conventions": "1.18.0",
