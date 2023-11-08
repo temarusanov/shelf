@@ -1,0 +1,54 @@
+{
+  "name": "opentelemetry",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/opentelemetry/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "clean": true,
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/opentelemetry",
+        "main": "packages/opentelemetry/src/index.ts",
+        "tsConfig": "packages/opentelemetry/tsconfig.lib.json",
+        "assets": ["packages/opentelemetry/*.md"]
+      }
+    },
+    "publish": {
+      "dependsOn": ["build"],
+      "command": "node tools/scripts/publish.mjs opentelemetry {args.ver} {args.tag}"
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "push": true
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "packages/opentelemetry/**/*.ts",
+          "packages/opentelemetry/package.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/opentelemetry/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

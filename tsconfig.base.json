@@ -26,6 +26,7 @@
       "@tinybudgie/health-checks": ["packages/health-checks/src/index.ts"],
       "@tinybudgie/logger": ["packages/logger/src/index.ts"],
       "@tinybudgie/nats": ["packages/nats/src/index.ts"],
+      "@tinybudgie/opentelemetry": ["packages/opentelemetry/src/index.ts"],
       "@tinybudgie/create-workspace": ["packages/create-workspace/src/index.ts"],
       "@tinybudgie/schematics": ["packages/schematics/src/index.ts"]
     }
