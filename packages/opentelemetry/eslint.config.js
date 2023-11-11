@@ -11,11 +11,17 @@ module.exports = [
     rules: {},
   },
   {
-    files: ['packages/opentelemetry/**/*.ts', 'packages/opentelemetry/**/*.tsx'],
+    files: [
+      'packages/opentelemetry/**/*.ts',
+      'packages/opentelemetry/**/*.tsx',
+    ],
     rules: {},
   },
   {
-    files: ['packages/opentelemetry/**/*.js', 'packages/opentelemetry/**/*.jsx'],
+    files: [
+      'packages/opentelemetry/**/*.js',
+      'packages/opentelemetry/**/*.jsx',
+    ],
     rules: {},
   },
 ];

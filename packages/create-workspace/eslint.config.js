@@ -11,11 +11,17 @@ module.exports = [
     rules: {},
   },
   {
-    files: ['packages/create-workspace/**/*.ts', 'packages/create-workspace/**/*.tsx'],
+    files: [
+      'packages/create-workspace/**/*.ts',
+      'packages/create-workspace/**/*.tsx',
+    ],
     rules: {},
   },
   {
-    files: ['packages/create-workspace/**/*.js', 'packages/create-workspace/**/*.jsx'],
+    files: [
+      'packages/create-workspace/**/*.js',
+      'packages/create-workspace/**/*.jsx',
+    ],
     rules: {},
   },
 ];

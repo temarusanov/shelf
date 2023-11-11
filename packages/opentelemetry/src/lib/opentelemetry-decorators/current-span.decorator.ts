@@ -1,10 +1,14 @@
-import 'reflect-metadata';
+import 'reflect-metadata'
 
 export const SPAN_CURRENT_METADATA = 'SPAN_CURRENT_METADATA'
 
 export function CurrentSpan(): ParameterDecorator {
     return (target: any, key: string, index: number) => {
-        Reflect.defineMetadata(`${key}${SPAN_CURRENT_METADATA}`, { index }, target)
+        Reflect.defineMetadata(
+            `${key}${SPAN_CURRENT_METADATA}`,
+            { index },
+            target,
+        )
     }
 }
 

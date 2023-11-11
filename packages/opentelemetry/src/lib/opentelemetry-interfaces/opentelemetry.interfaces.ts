@@ -4,7 +4,9 @@ import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions'
 
 export interface CreateSdkOptions {
     otlpHttpReceiverUrl?: string
-    resourceAttributes?: Partial<Record<keyof typeof SemanticResourceAttributes, string>>
+    resourceAttributes?: Partial<
+        Record<keyof typeof SemanticResourceAttributes, string>
+    >
     instrumentations?: InstrumentationOption[]
 }
 
