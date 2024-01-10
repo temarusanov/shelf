@@ -1,5 +1,5 @@
 export * from './lib/opentelemetry-decorators/current-span.decorator'
 export * from './lib/opentelemetry-decorators/current-tracer.decorator'
 export * from './lib/opentelemetry-decorators/span.decorator'
-export * from './lib/sdk'
+export * from './lib/opentelemetry-utils/opentelemetry.utils'
 export { Span as SpanType, Tracer as TracerType } from '@opentelemetry/api'
