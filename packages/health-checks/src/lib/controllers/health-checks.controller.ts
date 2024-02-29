@@ -5,11 +5,11 @@ import { ExternalContextCreator } from '@nestjs/core'
 import {
     HEALTH_INDICATOR_ARGS_METADATA,
     HEALTH_INDICATOR_METADATA,
-} from '../health-checks-constants/health-checks.constants'
+} from '../constants/health-checks.constants'
 import {
     HealthCheckResult,
     HealthIndicatorResult,
-} from '../health-checks-interfaces/health-checks.interfaces'
+} from '../interfaces/health-checks.interfaces'
 
 @Controller()
 export class HealthChecksController {
