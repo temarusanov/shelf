@@ -1,6 +1,6 @@
 {
   "name": "@tinybudgie/opentelemetry",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "dependencies": {
     "@opentelemetry/api": "1.6.0",
     "@opentelemetry/context-async-hooks": "1.17.0",
