@@ -11,9 +11,9 @@ import {
     LoggerInterface,
     LogLevel,
     LogMethodOptions,
-} from './logger-interfaces/logger.interfaces'
-import { clc } from './logger-utils/cli-colors.util'
-import { isPlainObject } from './logger-utils/utils'
+} from './interfaces/logger.interfaces'
+import { clc } from './utils/cli-colors.util'
+import { isPlainObject } from './utils/utils'
 
 const isProduction = get('NOVE_ENV').asString() === 'production'
 

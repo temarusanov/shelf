@@ -1,11 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types*/
+import { LoggerConfig, LogMethodOptions } from './interfaces/logger.interfaces'
 import { LoggerCore } from './logger-core'
-import {
-    LoggerConfig,
-    LogMethodOptions,
-} from './logger-interfaces/logger.interfaces'
-import { mergeDeep } from './logger-utils/utils'
+import { mergeDeep } from './utils/utils'
 
 export class Logger {
     private static _instance: LoggerCore

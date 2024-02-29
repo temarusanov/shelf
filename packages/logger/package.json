@@ -1,6 +1,6 @@
 {
-  "name": "@tinybudgie/logger",
-  "version": "0.2.0",
+  "name": "@shelfjs/logger",
+  "version": "0.0.0",
   "dependencies": {
     "chalk": "^4.1.2",
     "env-var": "^7.4.1",
