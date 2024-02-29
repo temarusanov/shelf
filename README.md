@@ -7,7 +7,7 @@
 </p>
 <br>
 
-## Documentation
+## Packages
 
 - [Health Checks (NestJS)](./packages/health-checks/README.md)
 - [Logger](./packages/logger/README.md)
