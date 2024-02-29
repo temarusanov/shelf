@@ -9,9 +9,9 @@ export const colorizeContext: (context: string, text: string) => string = chalk
     ? (context: string, text: string) =>
           chalk.bold.ansi256(getContextColor(context))(text)
     : chalk.ansi256
-    ? (context: string, text: string) =>
-          chalk.ansi256(getContextColor(context))(text)
-    : (context: string, text: string) => text
+      ? (context: string, text: string) =>
+            chalk.ansi256(getContextColor(context))(text)
+      : (context: string, text: string) => text
 
 function selectColor(namespace: string): number {
     let hash = 0

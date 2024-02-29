@@ -1,13 +1,14 @@
 import 'reflect-metadata'
+
 import {
     Counter,
-    MetricOptions,
-    UpDownCounter,
     Histogram,
-    ObservableGauge,
-    ObservableCounter,
-    ObservableUpDownCounter,
+    MetricOptions,
     metrics,
+    ObservableCounter,
+    ObservableGauge,
+    ObservableUpDownCounter,
+    UpDownCounter,
 } from '@opentelemetry/api'
 
 export function injectIntoArray(
