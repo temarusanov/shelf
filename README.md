@@ -4,7 +4,7 @@
 
 <p align="center">
     <picture>
-      <img src="https://i.ibb.co/SQ3gWst/Group-15.png" alt="Logo" />
+      <img src="./.github/imgs/logo.png" alt="Logo" />
     </picture>
 </p>
 <br>
