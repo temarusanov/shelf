@@ -27,20 +27,13 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "packages/health-checks/**/*.ts",
-          "packages/health-checks/package.json"
-        ]
-      }
+      "outputs": ["{options.outputFile}"]
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/health-checks/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "packages/health-checks/jest.config.ts"
       }
     }
   },
