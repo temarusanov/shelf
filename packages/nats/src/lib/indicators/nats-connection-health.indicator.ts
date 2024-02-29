@@ -1,10 +1,7 @@
 import { Injectable } from '@nestjs/common'
-import {
-    HealthIndicator,
-    HealthIndicatorResult,
-} from '@tinybudgie/health-checks'
+import { HealthIndicator, HealthIndicatorResult } from '@shelfjs/health-checks'
 
-import { NatsConnectionService } from '../nats-services/nats-connection.service'
+import { NatsConnectionService } from '../services/nats-connection.service'
 
 @Injectable()
 export class NatsConnectionHealthIndicator {

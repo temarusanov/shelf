@@ -1,13 +1,10 @@
 import { Inject, Injectable, Logger } from '@nestjs/common'
 import { ErrorCode, Payload, Subscription, SubscriptionOptions } from 'nats'
 
-import { NATS_CONFIG, NatsConfig } from '../nats-configs/nats-module.config'
-import { NATS_ERROR_TITLES } from '../nats-errors/nats-errors.enum'
-import { NatsErrorsEnum } from '../nats-errors/nats-errors.enum'
-import {
-    NatsResponse,
-    RequestOptions,
-} from '../nats-interfaces/nats.interfaces'
+import { NATS_CONFIG, NatsConfig } from '../configs/nats-module.config'
+import { NATS_ERROR_TITLES } from '../errors/nats-errors.enum'
+import { NatsErrorsEnum } from '../errors/nats-errors.enum'
+import { NatsResponse, RequestOptions } from '../interfaces/nats.interfaces'
 import {
     decodeMessage,
     encodeMessage,

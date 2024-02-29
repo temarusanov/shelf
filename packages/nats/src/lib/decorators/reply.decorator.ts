@@ -1,7 +1,7 @@
 import { applyDecorators, SetMetadata } from '@nestjs/common'
 
-import { REPLY_METADATA } from '../nats-constants/nats.constants'
-import { SubscriptionOptions } from '../nats-interfaces/nats.interfaces'
+import { REPLY_METADATA } from '../constants/nats.constants'
+import { SubscriptionOptions } from '../interfaces/nats.interfaces'
 
 export function Reply(
     subject: string,

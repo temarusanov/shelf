@@ -10,7 +10,7 @@ import {
     SubscriptionOptions as NatsSubscriptionOptions,
 } from 'nats'
 
-import { NatsConnectionConfig } from '../nats-configs/nats-module.config'
+import { NatsConnectionConfig } from '../configs/nats-module.config'
 
 export interface NatsResponse<T> {
     subject: string

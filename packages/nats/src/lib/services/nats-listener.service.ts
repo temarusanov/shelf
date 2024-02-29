@@ -8,14 +8,14 @@ import {
 import { ExternalContextCreator } from '@nestjs/core'
 import { JsMsg, SubscriptionOptions } from 'nats'
 
-import { NATS_CONFIG, NatsConfig } from '../nats-configs/nats-module.config'
+import { NATS_CONFIG, NatsConfig } from '../configs/nats-module.config'
 import {
     CONSUME_ARGS_METADATA,
     CONSUME_METADATA,
     REPLY_ARGS_METADATA,
     REPLY_METADATA,
-} from '../nats-constants/nats.constants'
-import { ConsumeOptions } from '../nats-interfaces/nats.interfaces'
+} from '../constants/nats.constants'
+import { ConsumeOptions } from '../interfaces/nats.interfaces'
 import { decodeMessage, encodeMessage } from '../nats-utils/nats.utils'
 import { NatsClientService } from './nats-client.service'
 import { NatsJetStreamClientService } from './nats-jetstream-client.service'

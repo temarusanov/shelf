@@ -12,15 +12,9 @@ import {
     StreamUpdateConfig,
 } from 'nats'
 
-import { NATS_CONFIG, NatsConfig } from '../nats-configs/nats-module.config'
-import {
-    NATS_ERROR_TITLES,
-    NatsErrorsEnum,
-} from '../nats-errors/nats-errors.enum'
-import {
-    CreateStream,
-    PublishOptions,
-} from '../nats-interfaces/nats.interfaces'
+import { NATS_CONFIG, NatsConfig } from '../configs/nats-module.config'
+import { NATS_ERROR_TITLES, NatsErrorsEnum } from '../errors/nats-errors.enum'
+import { CreateStream, PublishOptions } from '../interfaces/nats.interfaces'
 import { encodeMessage, parseHeaders } from '../nats-utils/nats.utils'
 import { NatsConnectionService } from './nats-connection.service'
 

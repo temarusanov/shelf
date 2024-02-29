@@ -10,16 +10,13 @@ import {
 import { isObject } from '@nestjs/common/utils/shared.utils'
 import { connect, JetStreamManager, NatsConnection } from 'nats'
 
-import { NATS_CONFIG, NatsConfig } from '../nats-configs/nats-module.config'
-import { DEFAULT_CONNECTION_NAME } from '../nats-constants/nats.constants'
-import {
-    NATS_ERROR_TITLES,
-    NatsErrorsEnum,
-} from '../nats-errors/nats-errors.enum'
+import { NATS_CONFIG, NatsConfig } from '../configs/nats-module.config'
+import { DEFAULT_CONNECTION_NAME } from '../constants/nats.constants'
+import { NATS_ERROR_TITLES, NatsErrorsEnum } from '../errors/nats-errors.enum'
 import {
     GetJetStreamManagerOptions,
     NatsConnectionObject,
-} from '../nats-interfaces/nats.interfaces'
+} from '../interfaces/nats.interfaces'
 
 @Injectable()
 export class NatsConnectionService implements OnModuleInit, OnModuleDestroy {
