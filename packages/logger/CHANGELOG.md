@@ -3,7 +3,7 @@
 
 ### 🚀 Features
 
-- change docs to tinybudgie
+- change docs to shelfjs
 
 - add optional formatter fn
 

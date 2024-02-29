@@ -1,5 +1,5 @@
 {
-  "name": "@tinybudgie/opentelemetry",
+  "name": "@shelfjs/opentelemetry",
   "version": "1.0.0",
   "dependencies": {
     "@opentelemetry/api": "1.6.0",

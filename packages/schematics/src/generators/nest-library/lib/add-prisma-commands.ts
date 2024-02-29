@@ -20,26 +20,26 @@ export function addPrismaCommands(
     const project = readProjectConfiguration(tree, options.projectName)
 
     project.targets!['prisma:generate'] = {
-        executor: '@tinybudgie/schematics:prisma-generate',
+        executor: '@shelfjs/schematics:prisma-generate',
         outputs: [
             `{workspaceRoot}/node_modules/@prisma/${projectNames.fileName}-client`,
         ],
     }
 
     project.targets!['prisma:pull'] = {
-        executor: '@tinybudgie/schematics:prisma-pull',
+        executor: '@shelfjs/schematics:prisma-pull',
     }
 
     project.targets!['prisma:migrate:dev'] = {
-        executor: '@tinybudgie/schematics:prisma-migrate-dev',
+        executor: '@shelfjs/schematics:prisma-migrate-dev',
     }
 
     project.targets!['prisma:migrate:deploy'] = {
-        executor: '@tinybudgie/schematics:prisma-migrate-deploy',
+        executor: '@shelfjs/schematics:prisma-migrate-deploy',
     }
 
     project.targets!['prisma:studio'] = {
-        executor: '@tinybudgie/schematics:prisma-studio',
+        executor: '@shelfjs/schematics:prisma-studio',
     }
 
     updateProjectConfiguration(tree, options.projectName, project)

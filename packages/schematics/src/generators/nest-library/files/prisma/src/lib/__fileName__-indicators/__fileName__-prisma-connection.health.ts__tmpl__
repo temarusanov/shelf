@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { HealthIndicator, HealthIndicatorResult } from '@tinybudgie/health-checks'
+import { HealthIndicator, HealthIndicatorResult } from '@shelfjs/health-checks'
 
 import { <%= className %>PrismaService } from '../<%= fileName %>-services/<%= fileName %>-prisma.service'
 

@@ -3,7 +3,7 @@ import {
     Reply,
     ReplyPayload,
     ReplyResponse,
-} from '@tinybudgie/nats'
+} from '@shelfjs/nats'
 
 export enum <%= className %>NatsRoutesEnum {
     PING = '<%= fileName %>.ping',

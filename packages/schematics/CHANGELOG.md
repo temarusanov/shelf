@@ -3,7 +3,7 @@
 
 ### 🚀 Features
 
-- change docs to tinybudgie
+- change docs to shelfjs
 
 
 ### 🩹 Fixes
