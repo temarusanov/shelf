@@ -1,6 +1,9 @@
 {
   "name": "@shelfjs/logger",
   "version": "1.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "chalk": "^4.1.2",
     "env-var": "^7.4.1",

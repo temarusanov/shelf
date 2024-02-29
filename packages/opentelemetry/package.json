@@ -1,6 +1,9 @@
 {
   "name": "@shelfjs/opentelemetry",
   "version": "1.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@opentelemetry/api": "1.6.0",
     "@opentelemetry/context-async-hooks": "1.17.0",
