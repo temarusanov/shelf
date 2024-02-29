@@ -41,9 +41,6 @@
       "dependsOn": ["build"],
       "command": "node tools/scripts/publish.mjs schematics {args.ver} {args.tag}"
     },
-    "version": {
-      "executor": "@jscutlery/semver:version"
-    },
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
