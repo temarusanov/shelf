@@ -3,9 +3,7 @@
 
 
 <p align="center">
-    <picture>
-      <img src="./.github/imgs/logo.png" alt="Logo" />
-    </picture>
+    <img src="./.github/imgs/logo.png" alt="Logo" />
 </p>
 <br>
 
