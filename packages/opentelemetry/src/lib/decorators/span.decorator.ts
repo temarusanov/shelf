@@ -1,10 +1,7 @@
 import { Span, SpanStatusCode, trace } from '@opentelemetry/api'
 
-import { SpanDecoratorOptions } from '../opentelemetry-interfaces/opentelemetry.interfaces'
-import {
-    copyMetadata,
-    injectIntoArray,
-} from '../opentelemetry-utils/opentelemetry.utils'
+import { SpanDecoratorOptions } from '../interfaces/opentelemetry.interfaces'
+import { copyMetadata, injectIntoArray } from '../utils/opentelemetry.utils'
 import { getCurrentSpanMeta } from './current-span.decorator'
 import { getCurrentTracerMeta } from './current-tracer.decorator'
 

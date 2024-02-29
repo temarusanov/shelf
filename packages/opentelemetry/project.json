@@ -20,10 +20,7 @@
       "command": "node tools/scripts/publish.mjs opentelemetry {args.ver} {args.tag}"
     },
     "version": {
-      "executor": "@jscutlery/semver:version",
-      "options": {
-        "push": true
-      }
+      "executor": "@jscutlery/semver:version"
     },
     "lint": {
       "executor": "@nx/eslint:lint",
