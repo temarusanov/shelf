@@ -23,14 +23,11 @@
     "esModuleInterop": true,
     "noImplicitAny": false,
     "paths": {
-      "@tinybudgie/create-workspace": [
-        "packages/create-workspace/src/index.ts"
-      ],
-      "@tinybudgie/health-checks": ["packages/health-checks/src/index.ts"],
-      "@tinybudgie/logger": ["packages/logger/src/index.ts"],
-      "@tinybudgie/nats": ["packages/nats/src/index.ts"],
-      "@tinybudgie/opentelemetry": ["packages/opentelemetry/src/index.ts"],
-      "@tinybudgie/schematics": ["packages/schematics/src/index.ts"]
+      "@shelfjs/health-checks": ["packages/health-checks/src/index.ts"],
+      "@shelfjs/logger": ["packages/logger/src/index.ts"],
+      "@shelfjs/nats": ["packages/nats/src/index.ts"],
+      "@shelfjs/opentelemetry": ["packages/opentelemetry/src/index.ts"],
+      "@shelfjs/schematics": ["packages/schematics/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
