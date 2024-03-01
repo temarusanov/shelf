@@ -1,0 +1,22 @@
+{
+  "name": "@shelfjs/events",
+  "version": "0.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "10.x",
+    "rxjs": "^7.x"
+  },
+  "peerDependenciesMeta": {
+    "rxjs": {
+      "optional": true
+    },
+    "@shelfjs/nats": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@shelfjs/nats": "^1.1.0"
+  }
+}
