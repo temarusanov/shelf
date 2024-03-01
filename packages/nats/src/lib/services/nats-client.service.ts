@@ -5,11 +5,7 @@ import { NATS_CONFIG, NatsConfig } from '../configs/nats-module.config'
 import { NATS_ERROR_TITLES } from '../errors/nats-errors.enum'
 import { NatsErrorsEnum } from '../errors/nats-errors.enum'
 import { NatsResponse, RequestOptions } from '../interfaces/nats.interfaces'
-import {
-    decodeMessage,
-    encodeMessage,
-    parseHeaders,
-} from '../nats-utils/nats.utils'
+import { decodeMessage, encodeMessage, parseHeaders } from '../utils/nats.utils'
 import { NatsConnectionService } from './nats-connection.service'
 
 @Injectable()

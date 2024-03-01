@@ -15,7 +15,7 @@ import {
 import { NATS_CONFIG, NatsConfig } from '../configs/nats-module.config'
 import { NATS_ERROR_TITLES, NatsErrorsEnum } from '../errors/nats-errors.enum'
 import { CreateStream, PublishOptions } from '../interfaces/nats.interfaces'
-import { encodeMessage, parseHeaders } from '../nats-utils/nats.utils'
+import { encodeMessage, parseHeaders } from '../utils/nats.utils'
 import { NatsConnectionService } from './nats-connection.service'
 
 @Injectable()

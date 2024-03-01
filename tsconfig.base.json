@@ -24,10 +24,11 @@
     "noImplicitAny": false,
     "paths": {
       "@shelfjs/health-checks": ["packages/health-checks/src/index.ts"],
-      "@shelfjs/logger": ["packages/logger/src/index.ts"],
       "@shelfjs/nats": ["packages/nats/src/index.ts"],
+      "@shelfjs/logger": ["packages/logger/src/index.ts"],
       "@shelfjs/opentelemetry": ["packages/opentelemetry/src/index.ts"],
-      "@shelfjs/schematics": ["packages/schematics/src/index.ts"]
+      "@shelfjs/schematics": ["packages/schematics/src/index.ts"],
+      "@shelfjs/events": ["packages/events/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -16,7 +16,7 @@ import {
     REPLY_METADATA,
 } from '../constants/nats.constants'
 import { ConsumeOptions } from '../interfaces/nats.interfaces'
-import { decodeMessage, encodeMessage } from '../nats-utils/nats.utils'
+import { decodeMessage, encodeMessage } from '../utils/nats.utils'
 import { NatsClientService } from './nats-client.service'
 import { NatsJetStreamClientService } from './nats-jetstream-client.service'
 
