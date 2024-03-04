@@ -1,13 +1,5 @@
 ## 1.2.0 (2024-03-04)
 
-
-### 🚀 Features
-
-- add events package
-
-- nats events provider
-
-
 ### 🩹 Fixes
 
 - move deps for peerDeps
