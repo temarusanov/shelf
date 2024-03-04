@@ -9,6 +9,7 @@ import {
     patchNatsConfig,
 } from './configs/nats-module.config'
 import { NatsConnectionHealthIndicator } from './indicators/nats-connection-health.indicator'
+import { NatsBoostrapService } from './services/nats-bootstrap.service'
 import { NatsClientService } from './services/nats-client.service'
 import { NatsConnectionService } from './services/nats-connection.service'
 import { NatsJetStreamClientService } from './services/nats-jetstream-client.service'
@@ -39,6 +40,7 @@ export class NatsModule extends NatsConfigurableModuleClass {
             module: NatsModule,
             imports: [...(options?.imports || []), DiscoveryModule],
             providers: [
+                NatsBoostrapService,
                 NatsConnectionService,
                 NatsClientService,
                 NatsJetStreamClientService,

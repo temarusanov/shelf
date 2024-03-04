@@ -1,14 +1,8 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import {
-    Inject,
-    Injectable,
-    Logger,
-    OnModuleDestroy,
-    OnModuleInit,
-} from '@nestjs/common'
+import { Inject, Injectable, Logger } from '@nestjs/common'
 import { isObject } from '@nestjs/common/utils/shared.utils'
-import { connect, JetStreamManager, NatsConnection } from 'nats'
+import { connect, JetStreamManager } from 'nats'
 
 import { NATS_CONFIG, NatsConfig } from '../configs/nats-module.config'
 import { DEFAULT_CONNECTION_NAME } from '../constants/nats.constants'
@@ -19,7 +13,7 @@ import {
 } from '../interfaces/nats.interfaces'
 
 @Injectable()
-export class NatsConnectionService implements OnModuleInit, OnModuleDestroy {
+export class NatsConnectionService {
     private logger = new Logger(NatsConnectionService.name)
     private natsConnections: NatsConnectionObject[] = []
     private natsConnectionsStatus: {
@@ -32,74 +26,6 @@ export class NatsConnectionService implements OnModuleInit, OnModuleDestroy {
         @Inject(NATS_CONFIG)
         private readonly config: NatsConfig,
     ) {}
-
-    async onModuleInit() {
-        const connections = this.config.connections
-
-        if (this.config.connections.length === 0) {
-            throw new Error(NATS_ERROR_TITLES[NatsErrorsEnum.NoConnection])
-        }
-
-        if (this.config.connections.length >= 2) {
-            for (const connection of connections) {
-                if (!connection.connectionName) {
-                    throw new Error(
-                        NATS_ERROR_TITLES[NatsErrorsEnum.UnknownConnectionName],
-                    )
-                }
-            }
-        }
-
-        for (const connection of connections) {
-            const connectionName =
-                connection.connectionName ?? DEFAULT_CONNECTION_NAME
-
-            try {
-                const natsConnection = await connect(connection)
-
-                const natsConnectionObject = {
-                    name: connectionName,
-                    options: connection,
-                    connection: natsConnection,
-                }
-
-                this.handleStatusUpdates(natsConnectionObject)
-
-                this.natsConnections.push(natsConnectionObject)
-
-                this.natsConnectionsStatus.push({
-                    name: connectionName,
-                    connected: true,
-                })
-            } catch (error) {
-                this.natsConnectionsStatus.push({
-                    name: connectionName,
-                    connected: false,
-                    error,
-                })
-                this.logger.error(error)
-            }
-        }
-    }
-
-    async onModuleDestroy() {
-        for (const { name, connection } of this.natsConnections) {
-            if (connection === undefined) {
-                return
-            }
-
-            const connectionClosed = connection?.closed()
-
-            await connection?.drain()
-
-            const error = await connectionClosed
-            this.logger.log(`NATS (${name}) connection closed`)
-
-            if (error) {
-                this.logger.error(`Error closing NATS (${name}):`, error)
-            }
-        }
-    }
 
     status(connectionName?: string): { connected: boolean; error?: string } {
         if (!connectionName) {
@@ -249,6 +175,74 @@ export class NatsConnectionService implements OnModuleInit, OnModuleDestroy {
                     )
                     break
                 }
+            }
+        }
+    }
+
+    async _setupConnection() {
+        const connections = this.config.connections
+
+        if (this.config.connections.length === 0) {
+            throw new Error(NATS_ERROR_TITLES[NatsErrorsEnum.NoConnection])
+        }
+
+        if (this.config.connections.length >= 2) {
+            for (const connection of connections) {
+                if (!connection.connectionName) {
+                    throw new Error(
+                        NATS_ERROR_TITLES[NatsErrorsEnum.UnknownConnectionName],
+                    )
+                }
+            }
+        }
+
+        for (const connection of connections) {
+            const connectionName =
+                connection.connectionName ?? DEFAULT_CONNECTION_NAME
+
+            try {
+                const natsConnection = await connect(connection)
+
+                const natsConnectionObject = {
+                    name: connectionName,
+                    options: connection,
+                    connection: natsConnection,
+                }
+
+                this.handleStatusUpdates(natsConnectionObject)
+
+                this.natsConnections.push(natsConnectionObject)
+
+                this.natsConnectionsStatus.push({
+                    name: connectionName,
+                    connected: true,
+                })
+            } catch (error) {
+                this.natsConnectionsStatus.push({
+                    name: connectionName,
+                    connected: false,
+                    error,
+                })
+                this.logger.error(error)
+            }
+        }
+    }
+
+    async _stopConnection() {
+        for (const { name, connection } of this.natsConnections) {
+            if (connection === undefined) {
+                return
+            }
+
+            const connectionClosed = connection?.closed()
+
+            await connection?.drain()
+
+            const error = await connectionClosed
+            this.logger.log(`NATS (${name}) connection closed`)
+
+            if (error) {
+                this.logger.error(`Error closing NATS (${name}):`, error)
             }
         }
     }

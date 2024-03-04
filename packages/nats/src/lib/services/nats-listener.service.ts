@@ -21,7 +21,7 @@ import { NatsClientService } from './nats-client.service'
 import { NatsJetStreamClientService } from './nats-jetstream-client.service'
 
 @Injectable()
-export class NatsListenerService implements OnApplicationBootstrap {
+export class NatsListenerService {
     private readonly logger = new Logger(NatsListenerService.name)
 
     constructor(
@@ -33,12 +33,7 @@ export class NatsListenerService implements OnApplicationBootstrap {
         private readonly externalContextCreator: ExternalContextCreator,
     ) {}
 
-    async onApplicationBootstrap() {
-        await this.setupReplyListeners()
-        await this.setupConsumeListeners()
-    }
-
-    async setupReplyListeners() {
+    async _setupReplyListeners() {
         const listeners = await this.discovery.controllerMethodsWithMetaAtKey<{
             subject: string
             options: SubscriptionOptions
@@ -117,7 +112,7 @@ export class NatsListenerService implements OnApplicationBootstrap {
         }
     }
 
-    async setupConsumeListeners() {
+    async _setupConsumeListeners() {
         const listeners =
             await this.discovery.controllerMethodsWithMetaAtKey<ConsumeOptions>(
                 CONSUME_METADATA,
