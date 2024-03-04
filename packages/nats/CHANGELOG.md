@@ -1,3 +1,24 @@
+## 1.2.0 (2024-03-04)
+
+
+### 🚀 Features
+
+- add events package
+
+- nats events provider
+
+
+### 🩹 Fixes
+
+- move deps for peerDeps
+
+- remove onApplicationBoostrap from nats listeners
+
+
+### ❤️  Thank You
+
+- temz
+
 ## 1.1.0 (2024-03-01)
 
 ### 🩹 Fixes
