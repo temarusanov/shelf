@@ -3,9 +3,10 @@ export interface EventsServiceInterface<
     K extends EventPayloadData,
 > {
     send: (event: EventPayload<T, K>) => Promise<void>
-    listen: (
+    listen: <O>(
         pattern: T,
         callback: (event: EventPayload<T, K>) => Promise<void>,
+        options?: O,
     ) => Promise<void>
 }
 

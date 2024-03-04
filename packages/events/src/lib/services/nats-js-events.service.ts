@@ -1,6 +1,10 @@
 import { FactoryProvider, Injectable, Logger } from '@nestjs/common'
-import { decodeMessage, NatsJetStreamClientService } from '@shelfjs/nats'
-import { AckPolicy } from 'nats'
+import {
+    CreateStream,
+    decodeMessage,
+    NatsJetStreamClientService,
+} from '@shelfjs/nats'
+import { ConsumerConfig, StreamInfo } from 'nats'
 
 import {
     EventPayload,
@@ -8,8 +12,13 @@ import {
     EventsServiceInterface,
 } from '../interfaces/events.interfaces'
 
+export type NatsJsEventsListenConsumerOptions = Omit<
+    Partial<ConsumerConfig>,
+    'durable_name' | 'filter_subject'
+>
+
 export const createNatsJsEventsProvider = (
-    stream: string,
+    stream: CreateStream,
 ): Omit<FactoryProvider, 'provide'> => ({
     useFactory: (natsJsService: NatsJetStreamClientService) =>
         new NatsJsEventsService(stream, natsJsService),
@@ -22,44 +31,59 @@ export class NatsJsEventsService<T extends string, K extends EventPayloadData>
 {
     private logger = new Logger()
 
+    private stream!: StreamInfo
+
     constructor(
-        private readonly stream: string,
+        private readonly streamOptions: CreateStream,
         private readonly natsJetStreamClient: NatsJetStreamClientService,
     ) {}
+
+    async onModuleInit() {
+        this.stream = await this.natsJetStreamClient.createStream(
+            this.streamOptions,
+        )
+    }
 
     async send(event: EventPayload<T, K>) {
         await this.natsJetStreamClient.publish(event.pattern, event.data)
     }
 
-    async listen(
+    async listen<NatsJsEventsListenConsumerOptions>(
         pattern: string,
         callback: (event: EventPayload<T, K>) => Promise<void>,
+        options?: NatsJsEventsListenConsumerOptions,
     ): Promise<void> {
         const consumerInfo = await this.natsJetStreamClient.createConsumer(
-            this.stream,
+            this.stream.config.name,
             {
+                ...options,
                 durable_name: `${pattern.toLowerCase()}_consumer`,
                 filter_subject: pattern,
-                ack_policy: AckPolicy.All,
             },
         )
 
-        this.natsJetStreamClient.consume(this.stream, consumerInfo.name, {
-            callback: async (message) => {
-                try {
-                    const decodedMessage = decodeMessage(message.data) as K[T]
+        this.natsJetStreamClient.consume(
+            this.stream.config.name,
+            consumerInfo.name,
+            {
+                callback: async (message) => {
+                    try {
+                        const decodedMessage = decodeMessage(
+                            message.data,
+                        ) as K[T]
 
-                    await callback({
-                        pattern: message.subject as T,
-                        data: decodedMessage,
-                    })
+                        await callback({
+                            pattern: message.subject as T,
+                            data: decodedMessage,
+                        })
 
-                    await message.ackAck()
-                } catch (error) {
-                    this.logger.error(error)
-                    message.nak()
-                }
+                        await message.ackAck()
+                    } catch (error) {
+                        this.logger.error(error)
+                        message.nak()
+                    }
+                },
             },
-        })
+        )
     }
 }
