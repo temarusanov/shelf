@@ -7,13 +7,17 @@
   "peerDependencies": {
     "@nestjs/common": "^8.0.0 || ^9.0.0 || ^10.0.0",
     "rxjs": "^7.2.0",
-    "@shelfjs/nats": "^1.1.0"
+    "@shelfjs/nats": "^1.1.0",
+    "nats": "^2.16.0"
   },
   "peerDependenciesMeta": {
     "rxjs": {
       "optional": true
     },
     "@shelfjs/nats": {
+      "optional": true
+    },
+    "nats": {
       "optional": true
     }
   }

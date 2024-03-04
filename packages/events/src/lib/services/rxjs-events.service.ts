@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { FactoryProvider, Injectable } from '@nestjs/common'
 import { filter, ReplaySubject, tap } from 'rxjs'
 
 import {
@@ -7,11 +7,22 @@ import {
     EventsServiceInterface,
 } from '../interfaces/events.interfaces'
 
+export const createRxJsEventsProvider = (): Omit<
+    FactoryProvider,
+    'provide'
+> => ({
+    useFactory: () => new RxJsEventsService(),
+})
+
 @Injectable()
 export class RxJsEventsService<T extends string, K extends EventPayloadData>
     extends ReplaySubject<EventPayload<T, K>>
     implements EventsServiceInterface<T, K>
 {
+    constructor() {
+        super()
+    }
+
     async send(event: EventPayload<T, K>) {
         this.next(event)
     }
