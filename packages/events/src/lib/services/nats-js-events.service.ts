@@ -39,9 +39,10 @@ export class NatsJsEventsService<T extends string, K extends EventPayloadData>
     ) {}
 
     async onModuleInit() {
-        this.stream = await this.natsJetStreamClient.createStream(
-            this.streamOptions,
-        )
+        this.stream = await this.natsJetStreamClient.createStream({
+            ...this.streamOptions,
+            autoupdate: true,
+        })
     }
 
     async send(event: EventPayload<T, K>) {
