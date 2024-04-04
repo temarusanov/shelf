@@ -42,7 +42,7 @@ export interface PublishOptions
     extends Omit<Partial<JetStreamPublishOptions>, 'headers' | 'timeout'> {
     timeout?: number
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    headers: Record<string, string>
+    headers?: Record<string, string>
 }
 
 export interface CreateStream extends Partial<StreamConfig> {
