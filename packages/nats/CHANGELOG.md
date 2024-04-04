@@ -1,3 +1,13 @@
+## 1.2.1 (2024-04-04)
+
+### 🩹 Fixes
+
+- required headers now optional
+
+### ❤️  Thank You
+
+- temz
+
 ## 1.2.0 (2024-03-04)
 
 ### 🩹 Fixes
