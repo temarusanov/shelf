@@ -4,8 +4,8 @@ import { EventEmitter2 } from '@nestjs/event-emitter'
 import {
     EventPayload,
     EventPayloadData,
-    EventsPublisherInterface,
     EventsListenerInterface,
+    EventsPublisherInterface,
 } from '../interfaces/events.interfaces'
 
 export interface CreateEventEmitterListenerOptions {
@@ -38,8 +38,9 @@ export class EventEmitterPublisher<T extends string, K extends EventPayloadData>
 
     async send(event: EventPayload<T, K>) {
         this.eventEmitter.emit(event.pattern, {
+            pattern: event.pattern,
             data: event.data,
-            headers: event.headers,
+            headers: event.headers ?? {},
         })
     }
 }

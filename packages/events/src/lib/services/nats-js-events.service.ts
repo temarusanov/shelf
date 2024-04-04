@@ -4,13 +4,13 @@ import {
     decodeMessage,
     NatsJetStreamClientService,
 } from '@shelfjs/nats'
-import { ConsumerConfig } from 'nats'
+import { ConsumerConfig, headers } from 'nats'
 
 import {
     EventPayload,
     EventPayloadData,
-    EventsPublisherInterface,
     EventsListenerInterface,
+    EventsPublisherInterface,
 } from '../interfaces/events.interfaces'
 
 export type NatsJsListenerConsumerOptions = Omit<
@@ -57,7 +57,9 @@ export class NatsJsPublisher<T extends string, K extends EventPayloadData>
     }
 
     async send(event: EventPayload<T, K>) {
-        await this.natsJetStreamClient.publish(event.pattern, event.data)
+        await this.natsJetStreamClient.publish(event.pattern, event.data, {
+            headers: event.headers,
+        })
     }
 }
 
@@ -91,9 +93,20 @@ export class NatsJsListener<T extends string, K extends EventPayloadData>
                 try {
                     const decodedMessage = decodeMessage(message.data) as K[T]
 
+                    const headersKeys = message.headers?.keys()
+
+                    let parsedHeaders: Record<string, string> = {}
+
+                    if (headersKeys !== undefined && headersKeys.length !== 0) {
+                        for (const key of headersKeys) {
+                            parsedHeaders[key] = message.headers?.get(key)!
+                        }
+                    }
+
                     await callback({
                         pattern: message.subject as T,
                         data: decodedMessage,
+                        headers: parsedHeaders,
                     })
 
                     await message.ackAck()

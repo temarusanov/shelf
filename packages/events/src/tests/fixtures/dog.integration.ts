@@ -1,6 +1,12 @@
-import { Injectable, Inject } from "@nestjs/common"
-import { EventPayload } from "../../lib/interfaces/events.interfaces"
-import { CATS_LISTENER, CatsEventsListener, CatsEventPattern, CatsEventPatternToData } from "./cats/events.config"
+import { Inject, Injectable } from '@nestjs/common'
+
+import { EventPayload } from '../../lib/interfaces/events.interfaces'
+import {
+    CATS_LISTENER,
+    CatsEventPattern,
+    CatsEventPatternToData,
+    CatsEventsListener,
+} from './cats/events.config'
 
 @Injectable()
 export class DogIntegration {
@@ -19,7 +25,9 @@ export class DogIntegration {
         })
     }
 
-    async onCatCreatedEvent(event: EventPayload<CatsEventPattern, CatsEventPatternToData>) {
+    async onCatCreatedEvent(
+        event: EventPayload<CatsEventPattern, CatsEventPatternToData>,
+    ) {
         console.log(event)
         return event
     }

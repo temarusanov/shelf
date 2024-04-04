@@ -1,6 +1,7 @@
 import { DynamicModule, Module, Provider, Type } from '@nestjs/common'
-import { CATS_PUBLISHER, CatsEventPublisherProvider } from "./events.config";
-import { CatsService } from './cats.service';
+
+import { CatsService } from './cats.service'
+import { CATS_PUBLISHER, CatsEventPublisherProvider } from './events.config'
 
 @Module({})
 export class CatsModule {
@@ -14,7 +15,7 @@ export class CatsModule {
                 provide: CATS_PUBLISHER,
                 ...options.eventsProvider,
             },
-            CatsService
+            CatsService,
         ]
 
         return {

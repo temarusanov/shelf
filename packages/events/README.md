@@ -1,11 +1,11 @@
 # Events
 
 Package allows you to inject events provider and switch it when you want. For example you have application with a lot of 
-modules communicating with each other. If you make communication between your modules using integration layer you would probably love this package
+modules communicating with each other. If you make communication between your modules using integration/infrastructure/usecases layer you would probably love this package
 
 ## Supported providers
 
-- RxJs
+- EventEmitter
 - NATS
 
 ## Installation
@@ -16,44 +16,46 @@ npm i @shelfjs/events
 
 ## Usage
 
+> Checkout [tests](./src/tests/) to learn more about it
+
 ### Prepare configs
 
 Create events config. For example `cat-events.config.ts` in your dynamic module folder
 
 ```ts
 import { FactoryProvider } from '@nestjs/common'
-import {
-    EventsServiceInterface,
-    EventsServiceInterfaceConstructor,
-} from '@shelfjs/events'
 
-export const CAT_EVENTS = 'CAT_EVENTS'
+import { EventsListenerInterface, EventsPublisherInterface } from '@shelfjs/events'
 
-export type CatEventServiceProvider = Omit<
-    FactoryProvider<CatEventServiceInterface>,
+export const CATS_PUBLISHER = 'CATS_PUBLISHER'
+export const CATS_LISTENER = 'CATS_LISTENER'
+export const CATS_CONTEXT = 'cats'
+
+export type CatsEventPublisherProvider = Omit<
+    FactoryProvider<CatsEventsPublisher>,
     'provide'
 >
 
-export type CatEventServiceInterface = EventsServiceInterface<
-    CatEventPattern,
-    CatEventPatternToData
+export type CatsEventsPublisher = EventsPublisherInterface<
+    CatsEventPattern,
+    CatsEventPatternToData
 >
-export type CatEventServiceInterfaceConstructor =
-    EventsServiceInterfaceConstructor<CatEventPattern, CatEventPatternToData>
 
-// Your events' interfaces below
+export type CatsEventsListener = EventsListenerInterface<
+    CatsEventPattern,
+    CatsEventPatternToData
+>
 
-export enum CatEventPattern {
-    KITTY_CREATED = 'kitty_created',
+export enum CatsEventPattern {
+    CAT_CREATED = 'CAT_CREATED',
 }
 
-export interface CatKittyCreatedEvent {
-    catId: string
+export interface CatCreatedEvent {
     name: string
 }
 
-type CatEventPatternToData = {
-    [CatEventPattern.KITTY_CREATED]: CatKittyCreatedEvent
+export type CatsEventPatternToData = {
+    [CatsEventPattern.CAT_CREATED]: CatCreatedEvent
 }
 ```
 
@@ -62,11 +64,11 @@ Then add `eventsProvider` to config interface of your dynamic module
 ```ts
 import { ConfigurableModuleBuilder } from '@nestjs/common'
 
-import { CatEventServiceProvider } from './cat-events.config'
+import { CatsEventPublisherProvider } from './cat-events.config'
 
 export interface CatConfig {
     catsColor: string
-    eventsProvider: CatEventServiceProvider
+    eventsProvider: CatsEventPublisherProvider
 }
 
 export const {
@@ -137,19 +139,27 @@ export class CatService {
 }
 ```
 
-### Using RxJS provider
+### Using EventEmitter provider
 
 ```ts
 import { Module } from '@nestjs/common'
-import { createRxJsEventsProvider } from '@shelfjs/events/src/lib/services/rxjs-events.service'
+import { createRxJsEventsProvider } from '@shelfjs/events/src/lib/services/event-emitter-events.service'
 
 @Module({
     imports: [
-        CatModule.forRoot({
-            eventsProvider: createRxJsEventsProvider(),
+        EventEmitterModule.forRoot({
+            global: true,
+        }),
+        CatsModule.forRoot({
+            eventsProvider: createEventEmitterPublisher(),
         }),
     ],
-    providers: [CatIntegration],
+    providers: [
+        DogIntegration,
+        createEventEmitterListener({
+            injectionToken: CATS_LISTENER,
+        }),
+    ],
 })
 export class AppModule {}
 ```
@@ -157,38 +167,24 @@ export class AppModule {}
 Create integration and use `listen()` functions. For example `cat-integration.service.ts`
 
 ```ts
-import { Inject, Injectable } from '@nestjs/common'
-
-import {
-    CAT_EVENTS,
-    CatEventPattern,
-    CatEventServiceInterface,
-} from '../modules/cats/configs/cat-events.config'
-
 @Injectable()
-export class CatIntegration {
+export class DogIntegration {
     constructor(
-        @Inject(CAT_EVENTS)
-        private readonly events: CatEventServiceInterface,
+        @Inject(CATS_LISTENER)
+        private readonly events: CatsEventsListener,
     ) {}
 
-    async onApplicationBootstrap() {
-        try {
-            this.listenKittyCreated()
-        } catch (error) {
-            this.logger.error(error, error.stack)
-        }
+    onApplicationBootstrap() {
+        this.listenCatCreatedEvent()
     }
 
-    async listenKittyCreated() {
-        this.events.listen(
-            CatEventPattern.KITTY_CREATED,
-            async (event) => {
-                console.log(event.data)
-            },
-        )
+    listenCatCreatedEvent() {
+        this.events.listen(CatsEventPattern.CAT_CREATED, async (event) => {
+            console.log(event)
+        })
     }
 }
+
 ```
 
 
@@ -198,18 +194,31 @@ Every module needs their own NATS stream. For every `pattern` in your code the n
 
 ```ts
 import { Module } from '@nestjs/common'
-import { createRxJsEventsProvider } from '@shelfjs/events/src/lib/services/nats-js-events.service'
+import { createRxJsEventsProvider } from '@shelfjs/events/src/lib/services/nats-events.service'
 
 @Module({
     imports: [
-        CatModule.forRoot({
-            eventsProvider: createNatsJsEventsProvider({
-                name: 'nats-stream-name',
-                // other nats stream options here
+        NatsModule.forRoot({
+            connections: [
+                {
+                    servers: natsServerUrls,
+                },
+            ],
+        }),
+        CatsModule.forRoot({
+            eventsProvider: createNatsJsPublisher({
+                name: CATS_CONTEXT,
+                subjects: Object.values(CatsEventPattern),
             }),
         }),
     ],
-    providers: [CatIntegration],
+    providers: [
+        DogIntegration,
+        createNatsJsListener({
+            injectionToken: CATS_LISTENER,
+            streamName: CATS_CONTEXT,
+        }),
+    ],
 })
 export class AppModule {}
 ```
@@ -217,30 +226,18 @@ export class AppModule {}
 Create integration and use `listen()` functions. For example `cat-integration.service.ts`
 
 ```ts
-import { Inject, Injectable } from '@nestjs/common'
-
-import {
-    CAT_EVENTS,
-    CatEventPattern,
-    CatEventServiceInterface,
-} from '../modules/cats/configs/cat-events.config'
-
 @Injectable()
-export class CatIntegration {
+export class DogIntegration {
     constructor(
-        @Inject(CAT_EVENTS)
-        private readonly events: CatEventServiceInterface,
+        @Inject(CATS_LISTENER)
+        private readonly events: CatsEventsListener,
     ) {}
 
-    async onApplicationBootstrap() {
-        try {
-            this.listenKittyCreated()
-        } catch (error) {
-            this.logger.error(error, error.stack)
-        }
+    onApplicationBootstrap() {
+        this.listenCatCreatedEvent()
     }
 
-    async listenKittyCreated() {
+    listenCatCreatedEvent() {
         this.events.listen<NatsJsEventsListenConsumerOptions>(
             CatEventPattern.KITTY_CREATED,
             async (event) => {

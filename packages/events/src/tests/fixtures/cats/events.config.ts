@@ -1,10 +1,10 @@
 import { FactoryProvider } from '@nestjs/common'
+
 import { EventsListenerInterface, EventsPublisherInterface } from '../../..'
 
 export const CATS_PUBLISHER = 'CATS_PUBLISHER'
 export const CATS_LISTENER = 'CATS_LISTENER'
 export const CATS_CONTEXT = 'cats'
-
 
 export type CatsEventPublisherProvider = Omit<
     FactoryProvider<CatsEventsPublisher>,
@@ -24,7 +24,6 @@ export type CatsEventsListener = EventsListenerInterface<
 export enum CatsEventPattern {
     CAT_CREATED = 'CAT_CREATED',
 }
-
 
 export interface CatCreatedEvent {
     name: string
