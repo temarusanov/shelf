@@ -4,42 +4,53 @@ import {
     decodeMessage,
     NatsJetStreamClientService,
 } from '@shelfjs/nats'
-import { ConsumerConfig, StreamInfo } from 'nats'
+import { ConsumerConfig } from 'nats'
 
 import {
     EventPayload,
     EventPayloadData,
-    EventsServiceInterface,
+    EventsPublisherInterface,
+    EventsListenerInterface,
 } from '../interfaces/events.interfaces'
 
-export type NatsJsEventsListenConsumerOptions = Omit<
+export type NatsJsListenerConsumerOptions = Omit<
     Partial<ConsumerConfig>,
     'durable_name' | 'filter_subject'
 >
 
-export const createNatsJsEventsProvider = (
+export interface CreateNatsJsListenerOptions {
+    streamName: string
+    injectionToken: string
+}
+
+export const createNatsJsPublisher = (
     stream: CreateStream,
 ): Omit<FactoryProvider, 'provide'> => ({
     useFactory: (natsJsService: NatsJetStreamClientService) =>
-        new NatsJsEventsService(stream, natsJsService),
+        new NatsJsPublisher(stream, natsJsService),
+    inject: [NatsJetStreamClientService],
+})
+
+export const createNatsJsListener = (
+    options: CreateNatsJsListenerOptions,
+): FactoryProvider => ({
+    provide: options.injectionToken,
+    useFactory: (natsJsService: NatsJetStreamClientService) =>
+        new NatsJsListener(options.streamName, natsJsService),
     inject: [NatsJetStreamClientService],
 })
 
 @Injectable()
-export class NatsJsEventsService<T extends string, K extends EventPayloadData>
-    implements EventsServiceInterface<T, K>
+export class NatsJsPublisher<T extends string, K extends EventPayloadData>
+    implements EventsPublisherInterface<T, K>
 {
-    private logger = new Logger()
-
-    private stream!: StreamInfo
-
     constructor(
         private readonly streamOptions: CreateStream,
         private readonly natsJetStreamClient: NatsJetStreamClientService,
     ) {}
 
     async onModuleInit() {
-        this.stream = await this.natsJetStreamClient.createStream({
+        await this.natsJetStreamClient.createStream({
             ...this.streamOptions,
             autoupdate: true,
         })
@@ -48,6 +59,18 @@ export class NatsJsEventsService<T extends string, K extends EventPayloadData>
     async send(event: EventPayload<T, K>) {
         await this.natsJetStreamClient.publish(event.pattern, event.data)
     }
+}
+
+@Injectable()
+export class NatsJsListener<T extends string, K extends EventPayloadData>
+    implements EventsListenerInterface<T, K>
+{
+    private logger = new Logger()
+
+    constructor(
+        private readonly streamName: string,
+        private readonly natsJetStreamClient: NatsJetStreamClientService,
+    ) {}
 
     async listen<NatsJsEventsListenConsumerOptions>(
         pattern: string,
@@ -55,7 +78,7 @@ export class NatsJsEventsService<T extends string, K extends EventPayloadData>
         options?: NatsJsEventsListenConsumerOptions,
     ): Promise<void> {
         const consumerInfo = await this.natsJetStreamClient.createConsumer(
-            this.stream.config.name,
+            this.streamName,
             {
                 ...options,
                 durable_name: `${pattern.toLowerCase()}_consumer`,
@@ -63,28 +86,22 @@ export class NatsJsEventsService<T extends string, K extends EventPayloadData>
             },
         )
 
-        this.natsJetStreamClient.consume(
-            this.stream.config.name,
-            consumerInfo.name,
-            {
-                callback: async (message) => {
-                    try {
-                        const decodedMessage = decodeMessage(
-                            message.data,
-                        ) as K[T]
+        this.natsJetStreamClient.consume(this.streamName, consumerInfo.name, {
+            callback: async (message) => {
+                try {
+                    const decodedMessage = decodeMessage(message.data) as K[T]
 
-                        await callback({
-                            pattern: message.subject as T,
-                            data: decodedMessage,
-                        })
+                    await callback({
+                        pattern: message.subject as T,
+                        data: decodedMessage,
+                    })
 
-                        await message.ackAck()
-                    } catch (error) {
-                        this.logger.error(error)
-                        message.nak()
-                    }
-                },
+                    await message.ackAck()
+                } catch (error) {
+                    this.logger.error(error)
+                    message.nak()
+                }
             },
-        )
+        })
     }
 }
