@@ -1,3 +1,14 @@
+## 1.2.2 (2024-04-23)
+
+### 🩹 Fixes
+
+- setup listeners after nats decorators metadata
+
+### ❤️  Thank You
+
+- Georgiy Nozdrin
+- temz
+
 ## 1.2.1 (2024-04-04)
 
 ### 🩹 Fixes
