@@ -11,15 +11,15 @@ export class NatsBoostrapService {
     ) {}
 
     async onModuleInit() {
-      await this.connection._setupConnection()
-  }
+        await this.connection._setupConnection()
+    }
 
-  async onApplicationBootstrap() {
-      await this.listener._setupReplyListeners()
-      await this.listener._setupConsumeListeners()
-  }
+    async onApplicationBootstrap() {
+        await this.listener._setupReplyListeners()
+        await this.listener._setupConsumeListeners()
+    }
 
-  async onModuleDestroy() {
-      await this.connection._stopConnection()
-  }
+    async onModuleDestroy() {
+        await this.connection._stopConnection()
+    }
 }
