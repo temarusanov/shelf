@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "NestCqrs",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "enum": ["command", "query"],
+      "x-prompt": "What you want to generate: command or query?"
+    },
+    "name": {
+      "type": "string",
+      "description": "",
+      "$default": {
+        "$source": "argv",
+        "index": 1
+      },
+      "x-prompt": "What name of the command/query?"
+    },
+    "path": {
+      "type": "string",
+      "description": "",
+      "$default": {
+        "$source": "argv",
+        "index": 2
+      },
+      "x-prompt": "What path to store result?"
+    },
+    "graphql": {
+      "type": "boolean",
+      "default": false
+    },
+    "rest": {
+      "type": "boolean",
+      "default": false
+    },
+    "test": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": ["name", "path", "type"]
+}

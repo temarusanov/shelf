@@ -1,0 +1,12 @@
+export class <%= name.className %><%= type.className %> {
+    constructor(readonly userId: string) {}
+}
+
+<% if (type.name === 'query') { %>
+export type <%= name.className %><%= type.className %>Response = {
+    id: string
+}
+<% } else { %>
+export type <%= name.className %><%= type.className %>Response = void
+<% } %>
+

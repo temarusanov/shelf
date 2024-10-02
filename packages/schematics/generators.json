@@ -8,7 +8,14 @@
       "schema": "./src/generators/nest-library/schema.json",
       "aliases": ["lib"],
       "x-type": "library",
-      "description": "Create a new NestJS library."
+      "description": "Create a new NestJS library"
+    },
+    "nest-cqrs": {
+      "factory": "./src/generators/nest-cqrs/generator",
+      "schema": "./src/generators/nest-cqrs/schema.json",
+      "aliases": ["cqrs"],
+      "x-type": "library",
+      "description": "Create CQRS files"
     }
   },
   "generators": {
@@ -17,7 +24,12 @@
       "schema": "./src/generators/nest-library/schema.json",
       "aliases": ["lib"],
       "x-type": "library",
-      "description": "Create a new NestJS library."
+      "description": "Create a new NestJS library"
+    },
+    "nest-cqrs": {
+      "factory": "./src/generators/nest-cqrs/generator",
+      "schema": "./src/generators/nest-cqrs/schema.json",
+      "description": "Create CQRS files"
     }
   }
 }
