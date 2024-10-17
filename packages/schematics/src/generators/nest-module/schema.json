@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "NestModule",
+  "title": "Nest module generator",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name of the module?"
+    },
+    "path": {
+      "type": "string",
+      "description": "",
+      "$default": {
+        "$source": "argv",
+        "index": 1
+      },
+      "x-prompt": "What path to store result?"
+    },
+    "events": {
+      "type": "boolean",
+      "default": true
+    },
+    "repository": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": ["name", "path"]
+}

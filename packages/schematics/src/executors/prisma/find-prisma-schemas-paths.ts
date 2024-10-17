@@ -12,13 +12,11 @@ export function findPrismaSchemaPath(
 ): string | undefined {
     const { schema } = options
 
-    const projectRoot = context.projectGraph.nodes[context.projectName!].data.root;
+    const projectRoot =
+        context.projectGraph.nodes[context.projectName!].data.root
 
     if (!schema) {
-        const defaultProjectRoot = join(
-            projectRoot,
-            'src/prisma/schema.prisma',
-        )
+        const defaultProjectRoot = join(projectRoot, 'src/prisma/schema.prisma')
 
         if (!existsSync(defaultProjectRoot)) {
             throw new Error(

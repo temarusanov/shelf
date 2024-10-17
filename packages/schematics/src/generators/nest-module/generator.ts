@@ -3,20 +3,19 @@ import * as pathdir from 'path'
 
 import { NestCqrsGeneratorSchema } from './schema'
 
-export async function nestCqrsGenerator(
+export async function nestModuleGenerator(
     tree: Tree,
     options: NestCqrsGeneratorSchema,
 ) {
-    const { name, path, type, graphql, rest, test } = options
+    const { name, path, events, repository } = options
 
     const nameCases = names(name)
-    const typeCases = names(type)
 
     const generatorOptions = {
         name: nameCases,
         fileName: nameCases.fileName,
-        fileType: typeCases.fileName,
-        type: typeCases,
+        events,
+        repository,
         tmpl: '',
     }
 
@@ -27,24 +26,25 @@ export async function nestCqrsGenerator(
         generatorOptions,
     )
 
-    if (graphql) {
+    if (events) {
         generateFiles(
             tree,
-            pathdir.join(__dirname, 'files', 'graphql'),
+            pathdir.join(__dirname, 'files', 'events'),
             path,
             generatorOptions,
         )
     }
 
-    if (rest) {
-        console.log('rest not implemented yet')
-    }
-
-    if (test) {
-        console.log('test not implemented yet')
+    if (repository) {
+        generateFiles(
+            tree,
+            pathdir.join(__dirname, 'files', 'repository'),
+            path,
+            generatorOptions,
+        )
     }
 
     await formatFiles(tree)
 }
 
-export default nestCqrsGenerator
+export default nestModuleGenerator

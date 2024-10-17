@@ -1,0 +1,40 @@
+import { DynamicModule, Module, Provider, Type } from '@nestjs/common'
+
+import {
+    <%= name.constantName %>_CONFIG,
+    <%= name.constantName %>_OPTIONS_TYPE,
+    <%= name.className %>ConfigurableModuleClass,
+    patch<%= name.className %>Config,
+} from './configs/<%= name.fileName %>-module.config'
+<% if (events) { %>import { <%= name.constantName %>_PUBLISHER } from './configs/<%= name.fileName %>-events.config'<% } %>
+<% if (repository) { %>import { <%= name.constantName %>_REPOSITORY } from './configs/<%= name.fileName %>-repository.config'<% } %>
+
+@Module({})
+export class <%= name.className %>Module extends <%= name.className %>ConfigurableModuleClass {
+    static forRoot(options: typeof <%= name.constantName %>_OPTIONS_TYPE): DynamicModule {
+        const imports: any[] = []
+        const controllers: Type<any>[] = []
+        const providers: Provider[] = [
+            {
+                provide: <%= name.constantName %>_CONFIG,
+                useValue: patch<%= name.className %>Config(options),
+            },
+            <% if (events) { %>{
+                provide: <%= name.constantName %>_PUBLISHER,
+                ...options.eventsProvider,
+            },<% } %>
+            <% if (repository) { %>{
+                provide: <%= name.constantName %>_REPOSITORY,
+                useClass: options.repositoryProvider
+            }<% } %>
+        ]
+
+        return {
+            module: <%= name.className %>Module,
+            imports,
+            controllers,
+            providers,
+            exports: providers,
+        }
+    }
+}

@@ -9,12 +9,12 @@
   "executors": "./executors.json",
   "dependencies": {
     "@nx/devkit": "20.0.1",
-    "@actions/exec": "^1.1.1",
-    "@nx/js": "20.0.1",
-    "typescript": "^5.2.2",
-    "@nx/eslint": "20.0.1"
+    "@actions/exec": "^1.1.1"
   },
   "devDependencies": {
-    "prisma": "^5.5.2"
+    "prisma": "^5.5.2",
+    "typescript": "^5.2.2",
+    "@nx/eslint": "20.0.1",
+    "@nx/js": "20.0.1"
   }
 }

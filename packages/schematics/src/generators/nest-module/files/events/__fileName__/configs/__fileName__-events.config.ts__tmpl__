@@ -1,0 +1,35 @@
+import { FactoryProvider } from '@nestjs/common'
+import {
+    EventsListenerInterface,
+    EventsPublisherInterface,
+} from '@shelfjs/events'
+
+export const <%= name.constantName %>_PUBLISHER = '<%= name.constantName %>_PUBLISHER'
+export const <%= name.constantName %>_LISTENER = '<%= name.constantName %>_LISTENER'
+export const <%= name.constantName %>_CONTEXT = '<%= name.fileName %>'
+
+export type <%= name.className %>EventPublisherProvider = Omit<
+    FactoryProvider<<%= name.className %>EventsPublisher>,
+    'provide'
+>
+
+export type <%= name.className %>EventsPublisher = EventsPublisherInterface<
+    <%= name.className %>EventPattern,
+    <%= name.className %>EventPatternToData
+>
+
+export type <%= name.className %>EventsListener = EventsListenerInterface<
+    <%= name.className %>EventPattern,
+    <%= name.className %>EventPatternToData
+>
+
+export enum <%= name.className %>EventPattern {
+    NEW_EVENT = 'NEW_EVENT',
+    
+}
+
+type <%= name.className %>EventPatternToData = {
+    [<%= name.className %>EventPattern.NEW_EVENT]: {
+        userId: string
+    }
+}

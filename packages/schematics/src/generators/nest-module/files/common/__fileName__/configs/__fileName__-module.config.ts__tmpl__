@@ -1,0 +1,33 @@
+import { ConfigurableModuleBuilder, <% if (repository) { %>Type<% } %> } from '@nestjs/common';
+
+<% if (events) { %>import { <%= name.className %>EventPublisherProvider } from './<%= name.fileName %>-events.config.ts';<% } %>
+<% if (repository) { %>import { <%= name.className %>Repository } from './<%= name.fileName %>-repository.config.ts';<% } %>
+
+export interface <%= name.className %>Config {
+  <% if (events) { %>eventsProvider: <%= name.className %>EventPublisherProvider;<% } %><% if (repository) { %>repositoryProvider: Type<<%= name.className %>Repository>;<% } %>test?: boolean;
+}
+
+export const DEFAULT_<%= name.constantName %>_CONFIG: Pick<<%= name.className %>Config, 'test'> = {
+  test: false,
+};
+
+export function patch<%= name.className %>Config(
+  config: Pick<
+    typeof <%= name.constantName %>_OPTIONS_TYPE,
+    keyof typeof DEFAULT_<%= name.constantName %>_CONFIG
+  >,
+) {
+  return {
+    ...config,
+    ...DEFAULT_<%= name.constantName %>_CONFIG,
+  };
+}
+
+export const {
+  ConfigurableModuleClass: <%= name.className %>ConfigurableModuleClass,
+  MODULE_OPTIONS_TOKEN: <%= name.constantName %>_CONFIG,
+  ASYNC_OPTIONS_TYPE: <%= name.constantName %>_ASYNC_OPTIONS_TYPE,
+  OPTIONS_TYPE: <%= name.constantName %>_OPTIONS_TYPE,
+} = new ConfigurableModuleBuilder<<%= name.className %>Config, 'forRoot'>({
+  optionsInjectionToken: `<%= name.constantName %>_CONFIG`,
+}).build();
