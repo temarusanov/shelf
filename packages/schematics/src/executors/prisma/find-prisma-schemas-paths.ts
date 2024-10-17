@@ -4,7 +4,6 @@ import { join } from 'node:path'
 
 import { ExecutorContext } from '@nx/devkit'
 
-import { getProjectRoot } from '../../utils/get-project-root'
 import { PrismaGenerateExecutorSchema } from './generate/schema'
 
 export function findPrismaSchemaPath(
@@ -13,9 +12,11 @@ export function findPrismaSchemaPath(
 ): string | undefined {
     const { schema } = options
 
+    const projectRoot = context.projectGraph.nodes[context.projectName!].data.root;
+
     if (!schema) {
         const defaultProjectRoot = join(
-            getProjectRoot(context),
+            projectRoot,
             'src/prisma/schema.prisma',
         )
 
