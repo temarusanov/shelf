@@ -41,7 +41,7 @@
   "release": {
     "projectsRelationship": "independent",
     "changelog": {
-      "projectChangelogs": true
+      "projectChangelogs": false
     }
   },
   "useLegacyCache": true
