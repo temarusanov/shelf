@@ -49,6 +49,7 @@ Generate nest dynamic module with `.forRoot()` and module configs
 Usage:
 
 `--events` generate additional events provider interface. default: true
+
 `--repository` generate additional repostiory provider interface. default: false
 
 ```bash
@@ -62,7 +63,9 @@ Generate nest command and queries with additional GraphQL resolver
 Usage:
 
 `--graphql` generate GraphQL resolver
+
 `--rest` generate REST controller
+
 `--test` generate Jest tests
 
 ```bash
