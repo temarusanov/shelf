@@ -28,20 +28,20 @@ export class  <%= name.className %>Type {
 <% } %>
 @Resolver()
 export class  <%= name.className %>Resolver {
-    constructor(private readonly <%= type.fileName %>Bus: <%= type.className %>Bus) {}
+    constructor(private <%= type.fileName %>Bus: <%= type.className %>Bus) {}
 
     <% if (type.name === 'query') { %>
       @Query(() => <%= name.className %>Type)
       async <%= name.propertyName %>(@Args('input') input: <%= name.className %>Input): Promise<<%= name.className %>Type> {
           return await this.<%= type.fileName %>Bus.execute<<%= name.className %><%= type.className %>, <%= name.className %><%= type.className %>Response>(
-              new <%= name.className %><%= type.className %>(input.userId),
+              new <%= name.className %><%= type.className %>(input),
           )
       }
     <% } else { %>
       @Mutation(() => Boolean)
         async <%= name.propertyName %>(@Args('input') input: <%= name.className %>Input): Promise<boolean> {
             await this.<%= type.fileName %>Bus.execute<<%= name.className %><%= type.className %>, <%= name.className %><%= type.className %>Response>(
-                new <%= name.className %><%= type.className %>(input.userId),
+                new <%= name.className %><%= type.className %>(input),
             )
 
             return true

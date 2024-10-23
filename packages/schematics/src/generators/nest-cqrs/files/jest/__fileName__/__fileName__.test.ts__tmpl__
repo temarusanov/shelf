@@ -1,0 +1,23 @@
+import { Logger } from '@nestjs/common'
+import { Test } from '@nestjs/testing'
+
+import { <%= name.className %>Handler } from './<%= name.fileName %>.handler'
+
+describe('<%= name.fileName %> integration test', () => {
+    beforeAll(async () => {
+        const moduleRef = await Test.createTestingModule({
+            imports: [],
+            providers: [
+                <%= name.className %>Handler
+            ],
+        }).compile()
+
+        const app = moduleRef.createNestApplication()
+        app.useLogger(new Logger())
+        await app.listen(0)
+    })
+
+    it('Expect true to be true', async () => {
+        expect(true).toBe(true)
+    })
+})

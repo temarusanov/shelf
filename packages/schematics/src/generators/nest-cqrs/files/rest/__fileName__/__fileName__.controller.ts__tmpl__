@@ -1,0 +1,33 @@
+import { Controller, <% if (type.name === 'command') { %>Post, Body<% } else {%>Get, Query<% } %> } from "@nestjs/common";
+import { <%= type.className %>Bus } from '@nestjs/cqrs'
+
+import { <%= name.className %><%= type.className %>, <%= name.className %><%= type.className %>Response } from './<%= name.fileName %>.<%= type.fileName %>'
+
+
+export interface <%= name.className %>Payload {
+    userId: string
+}
+
+@Controller()
+export class <%= name.className %>Controller {
+    
+    constructor(private <%= type.fileName %>Bus: <%= type.className %>Bus) {}
+
+    <% if (type.name === 'query') { %>
+      @Get('<%= name.fileName %>')
+      async <%= name.propertyName %>(@Query() input: <%= name.className %>Payload) {
+          return await this.<%= type.fileName %>Bus.execute<<%= name.className %><%= type.className %>, <%= name.className %><%= type.className %>Response>(
+              new <%= name.className %><%= type.className %>(input),
+          )
+      }
+    <% } else { %>
+        @Post('<%= name.fileName %>')
+        async <%= name.propertyName %>(@Body() input: <%= name.className %>Payload) {
+            await this.<%= type.fileName %>Bus.execute<<%= name.className %><%= type.className %>, <%= name.className %><%= type.className %>Response>(
+                new <%= name.className %><%= type.className %>(input),
+            )
+
+            return true
+        }
+    <% } %>
+}

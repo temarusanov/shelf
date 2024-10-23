@@ -1,5 +1,7 @@
 export class <%= name.className %><%= type.className %> {
-    constructor(readonly userId: string) {}
+    constructor(readonly payload: {
+        userId: string
+    }) {}
 }
 
 <% if (type.name === 'query') { %>

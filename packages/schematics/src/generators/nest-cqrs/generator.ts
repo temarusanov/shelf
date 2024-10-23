@@ -37,11 +37,21 @@ export async function nestCqrsGenerator(
     }
 
     if (rest) {
-        console.log('rest not implemented yet')
+        generateFiles(
+            tree,
+            pathdir.join(__dirname, 'files', 'rest'),
+            path,
+            generatorOptions,
+        )
     }
 
     if (test) {
-        console.log('test not implemented yet')
+        generateFiles(
+            tree,
+            pathdir.join(__dirname, 'files', 'jest'),
+            path,
+            generatorOptions,
+        )
     }
 
     await formatFiles(tree)

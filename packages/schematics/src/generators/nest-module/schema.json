@@ -2,11 +2,12 @@
   "$schema": "https://json-schema.org/schema",
   "$id": "NestModule",
   "title": "Nest module generator",
+  "description": "Generate NestJS Module with ready config, events, repositories and dynamic module",
   "type": "object",
   "properties": {
     "name": {
       "type": "string",
-      "description": "",
+      "description": "Module name",
       "$default": {
         "$source": "argv",
         "index": 0
@@ -15,7 +16,7 @@
     },
     "path": {
       "type": "string",
-      "description": "",
+      "description": "Path to store your module",
       "$default": {
         "$source": "argv",
         "index": 1
@@ -24,10 +25,12 @@
     },
     "events": {
       "type": "boolean",
+      "description": "Generate events provider",
       "default": true
     },
     "repository": {
       "type": "boolean",
+      "description": "Generate repository provider",
       "default": false
     }
   },

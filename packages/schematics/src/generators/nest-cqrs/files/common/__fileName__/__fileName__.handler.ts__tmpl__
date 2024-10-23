@@ -7,7 +7,7 @@ export class  <%= name.className %>Handler implements I<%= type.className %>Hand
 
     constructor(private service: unknown) {}
 
-    async execute(payload:  <%= name.className %><%= type.className %>) {
+    async execute({ payload }:  <%= name.className %><%= type.className %>) {
         <% if (type.name === 'query') { %>
         return { id: '0' }
         <% } else { %>
