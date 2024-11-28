@@ -1,0 +1,35 @@
+{
+  "name": "trpc",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/trpc/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "clean": true,
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/trpc",
+        "main": "packages/trpc/src/index.ts",
+        "tsConfig": "packages/trpc/tsconfig.lib.json",
+        "assets": ["packages/trpc/*.md"]
+      }
+    },
+    "publish": {
+      "dependsOn": ["build"],
+      "command": "node tools/scripts/publish.mjs trpc {args.ver} {args.tag}"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/trpc/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}
