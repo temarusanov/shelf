@@ -11,7 +11,7 @@ export class  <%= name.className %>Handler implements I<%= type.className %>Hand
         <% if (type.name === 'query') { %>
         return { id: '0' }
         <% } else { %>
-        return
+        return true
         <% } %>
     }
 }

@@ -30,6 +30,6 @@
         id: string
     }
     <% } else { %>
-    export type <%= name.className %><%= type.className %>Response = void
+    export type <%= name.className %><%= type.className %>Response = boolean
     <% } %>
 <% } %>

@@ -1,39 +1,61 @@
 <% if (zod === true) { %>
     import { <%= type.className %>Bus } from '@nestjs/cqrs'
-    import { Resolver } from '@nestjs/graphql'
     import { 
-        <% if (type.name === 'query') { %>QueryWithZod,<% } %> 
-        <% if (type.name === 'command') { %>MutationWithZod,<% } %> 
-        ZodArgs
-    } from "nestjs-graphql-zod";
+        Args,
+        <% if (type.name === 'command') { %>Mutation<% } else {%>Query<% } %>,
+        Resolver } from '@nestjs/graphql'
+    import {
+        generateInputTypeFromZod,
+        <% if (type.name === 'query') { %>generateObjectTypeFromZod,<% } %> 
+    } from 'zod-to-nestjs-graphql'
 
 
     import { 
         <%= name.className %><%= type.className %>, 
         <%= name.className %><%= type.className %>InputSchema, 
-        <%= name.className %><%= type.className %>OutputSchema,
+        <% if (type.name === 'query') { %><%= name.className %><%= type.className %>OutputSchema,<% } %> 
         <%= name.className %><%= type.className %>Response
     } from './<%= name.fileName %>.<%= type.fileName %>'
+
+    const InputType = generateInputTypeFromZod(
+        <%= name.className %><%= type.className %>InputSchema,
+        {
+            name: '<%= name.className %><%= type.className %>Input',
+        },
+    )
+
+    <% if (type.name === 'query') { %>
+        const OutputType = generateObjectTypeFromZod(
+            <%= name.className %><%= type.className %>OutputSchema,
+            {
+                name: '<%= name.className %><%= type.className %>Output',
+            },
+        )
+    <% } %>
 
     @Resolver()
     export class  <%= name.className %>Resolver {
         constructor(private <%= type.fileName %>Bus: <%= type.className %>Bus) {}
 
         <% if (type.name === 'query') { %>
-            @QueryWithZod(<%= name.className %><%= type.className %>OutputSchema)
-            async <%= name.propertyName %>(@ZodArgs(<%= name.className %><%= type.className %>InputSchema) input: ZodArgs.Of<typeof <%= name.className %><%= type.className %>InputSchema>) {
+            @Query(() => OutputType)
+            async <%= name.propertyName %>(
+                @Args('input', { type: () => InputType })
+                input: typeof InputType,
+            ) {
                 return await this.<%= type.fileName %>Bus.execute<<%= name.className %><%= type.className %>, <%= name.className %><%= type.className %>Response>(
                     new <%= name.className %><%= type.className %>(input),
                 )
             }
         <% } else { %>
-            @MutationWithZod(<%= name.className %><%= type.className %>OutputSchema)
-            async <%= name.propertyName %>(@ZodArgs(<%= name.className %><%= type.className %>InputSchema) input: ZodArgs.Of<typeof <%= name.className %><%= type.className %>InputSchema>): Promise<boolean> {
-                await this.<%= type.fileName %>Bus.execute<<%= name.className %><%= type.className %>, <%= name.className %><%= type.className %>Response>(
+            @Mutation(() => Boolean)
+            async <%= name.propertyName %>(
+                @Args('input', { type: () => InputType })
+                input: typeof InputType,
+            ) {
+                return await this.<%= type.fileName %>Bus.execute<<%= name.className %><%= type.className %>, <%= name.className %><%= type.className %>Response>(
                     new <%= name.className %><%= type.className %>(input),
                 )
-
-                return true
             }
         <% } %>
     }
@@ -71,14 +93,14 @@
         constructor(private <%= type.fileName %>Bus: <%= type.className %>Bus) {}
 
         <% if (type.name === 'query') { %>
-        @Query(() => <%= name.className %>Type)
-        async <%= name.propertyName %>(@Args('input') input: <%= name.className %>Input): Promise<<%= name.className %>Type> {
-            return await this.<%= type.fileName %>Bus.execute<<%= name.className %><%= type.className %>, <%= name.className %><%= type.className %>Response>(
-                new <%= name.className %><%= type.className %>(input),
-            )
-        }
+            @Query(() => <%= name.className %>Type)
+            async <%= name.propertyName %>(@Args('input') input: <%= name.className %>Input): Promise<<%= name.className %>Type> {
+                return await this.<%= type.fileName %>Bus.execute<<%= name.className %><%= type.className %>, <%= name.className %><%= type.className %>Response>(
+                    new <%= name.className %><%= type.className %>(input),
+                )
+            }
         <% } else { %>
-        @Mutation(() => Boolean)
+            @Mutation(() => Boolean)
             async <%= name.propertyName %>(@Args('input') input: <%= name.className %>Input): Promise<boolean> {
                 await this.<%= type.fileName %>Bus.execute<<%= name.className %><%= type.className %>, <%= name.className %><%= type.className %>Response>(
                     new <%= name.className %><%= type.className %>(input),
