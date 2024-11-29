@@ -1,7 +1,7 @@
 import { ConsoleLogger } from '@nestjs/common'
 import { ModulesContainer } from '@nestjs/core'
 import { Test, TestingModule } from '@nestjs/testing'
-import { initTRPC,TRPCError } from '@trpc/server'
+import { initTRPC, TRPCError } from '@trpc/server'
 import { z } from 'zod'
 
 import { TRPCMiddleware } from '../../interfaces'

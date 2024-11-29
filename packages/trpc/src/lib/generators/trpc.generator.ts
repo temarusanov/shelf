@@ -90,7 +90,7 @@ export class TRPCGenerator {
             }
 
             const routersMetadata = this.serializerHandler.serializeRouters(
-              appRouterSourceFile,
+                appRouterSourceFile,
                 mappedRoutesAndProcedures,
                 this.project,
             )

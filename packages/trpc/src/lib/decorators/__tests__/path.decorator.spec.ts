@@ -1,51 +1,69 @@
-import 'reflect-metadata';
-import { Path } from '../path.decorator';
-import { PROCEDURE_PARAM_METADATA_KEY } from '../../trpc.constants';
-import { ProcedureParamDecoratorType } from '../../interfaces/factory.interface';
+import 'reflect-metadata'
+
+import { ProcedureParamDecoratorType } from '../../interfaces/factory.interface'
+import { PROCEDURE_PARAM_METADATA_KEY } from '../../trpc.constants'
+import { Path } from '../path.decorator'
 
 describe('Path Decorator', () => {
-  class TestClass {
-    testMethod(@Path() param1: string, @Path() param2: string) {}
-  }
-
-  it('should add metadata to the method', () => {
-    const metadata = Reflect.getMetadata(PROCEDURE_PARAM_METADATA_KEY, TestClass.prototype, 'testMethod');
-    expect(metadata).toBeDefined();
-    expect(Array.isArray(metadata)).toBe(true);
-  });
-
-  it('should add correct metadata for each parameter', () => {
-    const metadata = Reflect.getMetadata(PROCEDURE_PARAM_METADATA_KEY, TestClass.prototype, 'testMethod');
-    expect(metadata).toHaveLength(2);
-
-    expect(metadata[0]).toEqual({
-      type: ProcedureParamDecoratorType.Path,
-      index: 1,
-    });
-
-    expect(metadata[1]).toEqual({
-      type: ProcedureParamDecoratorType.Path,
-      index: 0,
-    });
-  });
-
-  it('should append to existing metadata', () => {
-    class TestClassWithExistingMetadata {
-      testMethod(@Path() param1: string) {}
+    class TestClass {
+        testMethod(@Path() param1: string, @Path() param2: string) {}
     }
 
-    // Simulate existing metadata
-    const existingMetadata = [{ type: 'SomeOtherDecorator', index: 0 }];
-    Reflect.defineMetadata(PROCEDURE_PARAM_METADATA_KEY, existingMetadata, TestClassWithExistingMetadata.prototype, 'testMethod');
+    it('should add metadata to the method', () => {
+        const metadata = Reflect.getMetadata(
+            PROCEDURE_PARAM_METADATA_KEY,
+            TestClass.prototype,
+            'testMethod',
+        )
+        expect(metadata).toBeDefined()
+        expect(Array.isArray(metadata)).toBe(true)
+    })
 
-    // Apply our decorator
-    Path()(TestClassWithExistingMetadata.prototype, 'testMethod', 1);
+    it('should add correct metadata for each parameter', () => {
+        const metadata = Reflect.getMetadata(
+            PROCEDURE_PARAM_METADATA_KEY,
+            TestClass.prototype,
+            'testMethod',
+        )
+        expect(metadata).toHaveLength(2)
 
-    const metadata = Reflect.getMetadata(PROCEDURE_PARAM_METADATA_KEY, TestClassWithExistingMetadata.prototype, 'testMethod');
-    expect(metadata).toHaveLength(2);
-    expect(metadata[1]).toEqual({
-      type: ProcedureParamDecoratorType.Path,
-      index: 1,
-    });
-  });
-});
+        expect(metadata[0]).toEqual({
+            type: ProcedureParamDecoratorType.Path,
+            index: 1,
+        })
+
+        expect(metadata[1]).toEqual({
+            type: ProcedureParamDecoratorType.Path,
+            index: 0,
+        })
+    })
+
+    it('should append to existing metadata', () => {
+        class TestClassWithExistingMetadata {
+            testMethod(@Path() param1: string) {}
+        }
+
+        // Simulate existing metadata
+        const existingMetadata = [{ type: 'SomeOtherDecorator', index: 0 }]
+        Reflect.defineMetadata(
+            PROCEDURE_PARAM_METADATA_KEY,
+            existingMetadata,
+            TestClassWithExistingMetadata.prototype,
+            'testMethod',
+        )
+
+        // Apply our decorator
+        Path()(TestClassWithExistingMetadata.prototype, 'testMethod', 1)
+
+        const metadata = Reflect.getMetadata(
+            PROCEDURE_PARAM_METADATA_KEY,
+            TestClassWithExistingMetadata.prototype,
+            'testMethod',
+        )
+        expect(metadata).toHaveLength(2)
+        expect(metadata[1]).toEqual({
+            type: ProcedureParamDecoratorType.Path,
+            index: 1,
+        })
+    })
+})

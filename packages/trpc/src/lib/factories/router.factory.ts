@@ -86,9 +86,7 @@ export class RouterFactory {
                 prototype,
             )
 
-            this.logger.log(
-                `Router ${name} as ${camelCasedRouterName}.`,
-            )
+            this.logger.log(`Router ${name} as ${camelCasedRouterName}.`)
 
             const routerProcedures = this.procedureFactory.serializeProcedures(
                 procedures,

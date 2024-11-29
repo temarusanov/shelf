@@ -1,7 +1,7 @@
 import { ConsoleLogger } from '@nestjs/common'
 import { MetadataScanner, ModuleRef } from '@nestjs/core'
 import { Test, TestingModule } from '@nestjs/testing'
-import { initTRPC,ProcedureBuilder, TRPCError } from '@trpc/server'
+import { initTRPC, ProcedureBuilder, TRPCError } from '@trpc/server'
 import { z } from 'zod'
 
 import { Ctx, Input, Options, Query, UseMiddlewares } from '../../decorators'

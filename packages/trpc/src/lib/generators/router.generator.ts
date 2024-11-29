@@ -79,7 +79,7 @@ export class RouterGenerator {
 
         const serializedDecorators =
             this.decoratorHandler.serializeProcedureDecorators(
-              appRouterSourceFile,
+                appRouterSourceFile,
                 decorators,
                 sourceFile,
                 project,
