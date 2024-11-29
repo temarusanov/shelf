@@ -7,7 +7,7 @@ export async function nestCqrsGenerator(
     tree: Tree,
     options: NestCqrsGeneratorSchema,
 ) {
-    const { name, path, type, graphql, rest, test } = options
+    const { name, path, type, graphql, rest, test, zod } = options
 
     const nameCases = names(name)
     const typeCases = names(type)
@@ -17,6 +17,7 @@ export async function nestCqrsGenerator(
         fileName: nameCases.fileName,
         fileType: typeCases.fileName,
         type: typeCases,
+        zod,
         tmpl: '',
     }
 

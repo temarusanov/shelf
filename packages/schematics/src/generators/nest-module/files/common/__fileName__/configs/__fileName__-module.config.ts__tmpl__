@@ -1,6 +1,6 @@
 import { ConfigurableModuleBuilder, <% if (repository) { %>Type<% } %> } from '@nestjs/common';
 
-<% if (events) { %>import { <%= name.className %>EventPublisherProvider } from './<%= name.fileName %>-events.config.ts';<% } %>
+<% if (events) { %>import { <%= name.className %>EventPublisherProvider } from './<%= name.fileName %>-events.config';<% } %>
 <% if (repository) { %>import { <%= name.className %>Repository } from './<%= name.fileName %>-repository.config.ts';<% } %>
 
 export interface <%= name.className %>Config {
@@ -18,8 +18,8 @@ export function patch<%= name.className %>Config(
   >,
 ) {
   return {
-    ...config,
     ...DEFAULT_<%= name.constantName %>_CONFIG,
+    ...config,
   };
 }
 

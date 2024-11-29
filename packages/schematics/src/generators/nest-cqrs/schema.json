@@ -37,6 +37,11 @@
       "type": "boolean",
       "default": false
     },
+    "zod": {
+      "description": "Use Zod validation",
+      "type": "boolean",
+      "default": false
+    },
     "rest": {
       "description": "Generate REST controller",
       "type": "boolean",

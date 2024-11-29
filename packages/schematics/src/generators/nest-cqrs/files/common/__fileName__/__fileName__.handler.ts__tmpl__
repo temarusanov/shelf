@@ -1,4 +1,4 @@
-import { <%= type.className %>Handler, I<%= type.className %>Handler } from '@nestjs/cqrs'
+import { I<%= type.className %>Handler, <%= type.className %>Handler  } from '@nestjs/cqrs'
 
 import {  <%= name.className %><%= type.className %>,  <%= name.className %><%= type.className %>Response } from './<%= name.fileName %>.<%= type.fileName %>'
 

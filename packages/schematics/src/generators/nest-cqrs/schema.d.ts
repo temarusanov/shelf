@@ -5,4 +5,5 @@ export interface NestCqrsGeneratorSchema {
     graphql?: boolean
     rest?: boolean
     test?: boolean
+    zod?: boolean
 }

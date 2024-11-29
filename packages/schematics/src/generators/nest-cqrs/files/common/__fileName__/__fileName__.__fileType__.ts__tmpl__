@@ -1,14 +1,35 @@
-export class <%= name.className %><%= type.className %> {
-    constructor(readonly payload: {
-        userId: string
-    }) {}
-}
+<% if (zod === true) { %>
+    import { z } from 'zod'
 
-<% if (type.name === 'query') { %>
-export type <%= name.className %><%= type.className %>Response = {
-    id: string
-}
+    export const <%= name.className %><%= type.className %>InputSchema = z.object({
+        userId: z.string(),
+    })
+
+    <% if (type.name === 'query') { %>
+        export const <%= name.className %><%= type.className %>OutputSchema = z.object({
+            id: z.string(),
+        })
+    <% } else { %>
+        export const <%= name.className %><%= type.className %>OutputSchema = z.boolean()
+    <% } %>
+
+    export class <%= name.className %><%= type.className %> {
+        constructor(readonly payload: z.infer<typeof <%= name.className %><%= type.className %>InputSchema>) {}
+    }
+
+    export type <%= name.className %><%= type.className %>Response = z.infer<typeof <%= name.className %><%= type.className %>OutputSchema>
 <% } else { %>
-export type <%= name.className %><%= type.className %>Response = void
-<% } %>
+    export class <%= name.className %><%= type.className %> {
+        constructor(readonly payload: {
+            userId: string
+        }) {}
+    }
 
+    <% if (type.name === 'query') { %>
+    export type <%= name.className %><%= type.className %>Response = {
+        id: string
+    }
+    <% } else { %>
+    export type <%= name.className %><%= type.className %>Response = void
+    <% } %>
+<% } %>
