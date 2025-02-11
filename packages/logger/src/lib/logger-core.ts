@@ -34,7 +34,7 @@ export class LoggerCore implements LoggerInterface {
     log(message: any, ...optionalParams: [...any, string?]): void
     log(message: any, ...optionalParams: any[]): void {
         const options = this._findOptions(optionalParams)
-        this._printMessage(message, options, 'log')
+        this._printMessage(message, options, 'info')
     }
 
     error(message: any, options?: LogMethodOptions, stack?: string): void
@@ -126,14 +126,14 @@ export class LoggerCore implements LoggerInterface {
 
         if (json) {
             computedMessage = this._createJsonLog({
-                message: formatedMessage,
+                log: formatedMessage,
                 label,
                 level: logLevel,
                 stack,
             })
         } else {
             computedMessage = this._createDefaultLog({
-                message: formatedMessage,
+                log: formatedMessage,
                 label,
                 level: logLevel,
                 stack,
@@ -144,15 +144,15 @@ export class LoggerCore implements LoggerInterface {
     }
 
     private _createJsonLog(data: JsonLog): string {
-        const { message, level, label, stack } = data
+        const { log, level, label, stack } = data
 
         return `\n${JSON.stringify({
             timestamp: new Date().toISOString(),
-            message: isPlainObject(message)
-                ? JSON.stringify(message, (key, value) =>
+            log: isPlainObject(log)
+                ? JSON.stringify(log, (key, value) =>
                       typeof value === 'bigint' ? value.toString() : value,
                   )
-                : (message as string),
+                : (log as string),
             level,
             label,
             stack,
@@ -160,19 +160,19 @@ export class LoggerCore implements LoggerInterface {
     }
 
     private _createDefaultLog(data: DefaultLog): string {
-        const { message, level, label, stack } = data
+        const { log, level, label, stack } = data
         const { colors } = this._config
 
         const color = this._getColorByLogLevel(level)
 
-        const output = isPlainObject(message)
+        const output = isPlainObject(log)
             ? ` Object:\n${JSON.stringify(
-                  message,
+                  log,
                   (key, value) =>
                       typeof value === 'bigint' ? value.toString() : value,
                   JSON_SPACE,
               )}`
-            : ` ${message as string}`
+            : ` ${log as string}`
 
         const timestamp = chalk.hex(colors!.timestamp!)(this._getTimestamp())
         const labelMessage = label

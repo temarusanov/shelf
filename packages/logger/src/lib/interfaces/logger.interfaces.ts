@@ -1,12 +1,12 @@
 export interface DefaultLog {
-    message: string
+    log: string
     level: LogLevel
     label?: string
     stack?: string
 }
 
 export interface JsonLog {
-    message: string
+    log: string
     level: string
     label?: string
     stack?: string
@@ -17,7 +17,7 @@ export interface LogMethodOptions {
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export type LogLevel = 'log' | 'error' | 'warn' | 'debug' | 'verbose' | 'timer'
+export type LogLevel = 'info' | 'error' | 'warn' | 'debug' | 'verbose' | 'timer'
 
 /**
  * Logger interface from NestJS
