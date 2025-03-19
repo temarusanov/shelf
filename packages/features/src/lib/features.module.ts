@@ -11,9 +11,8 @@ import {
     FeatureConfig,
     patchFeatureConfig,
 } from './configs/feature-module.config'
-import { IFeatureBus } from './interfaces/features.interfaces'
-import { ExplorerService } from './services/explorer.service'
-import { FeatureBus } from './services/feature-bus.service'
+import { FeatureBus } from './services/bus.service'
+import { FeatureExplorerService } from './services/explorer.service'
 
 @Module({})
 export class FeatureModule implements OnApplicationBootstrap {
@@ -36,7 +35,7 @@ export class FeatureModule implements OnApplicationBootstrap {
     constructor(
         @Inject(FEATURE_CONFIG)
         private readonly config: FeatureConfig,
-        private readonly explorerService: ExplorerService,
+        private readonly explorerService: FeatureExplorerService,
         private readonly bus: FeatureBus,
     ) {}
 
