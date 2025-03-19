@@ -155,6 +155,8 @@ export class FeatureHandlerNotFoundException extends Error {
 
 export class FeatureNATSClientNotFoundException extends Error {
     constructor() {
-        super(`FeatureBus couldn't find NATSModule. Do you initialize it via NATSModule.forRoot({...})?`)
+        super(
+            `FeatureBus couldn't find NATSModule. Do you initialize it via NATSModule.forRoot({...})?`,
+        )
     }
 }

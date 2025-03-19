@@ -51,7 +51,10 @@ export class FeatureBus<FeatureBase extends IFeature = IFeature>
      * @param context The context to use. Optional.
      * @returns A promise that, when resolved, will contain the result returned by the feature's handler.
      */
-    async execute<R = void>(feature: Feature<R>, context?: AsyncContext): Promise<R>
+    async execute<R = void>(
+        feature: Feature<R>,
+        context?: AsyncContext,
+    ): Promise<R>
     /**
      * Executes a feature.
      * @param feature The feature to execute.
@@ -80,7 +83,10 @@ export class FeatureBus<FeatureBase extends IFeature = IFeature>
                     throw new FeatureNATSClientNotFoundException()
                 }
 
-                const { data } = await this.natsClient.request<T, R>(featureId, feature)
+                const { data } = await this.natsClient.request<T, R>(
+                    featureId,
+                    feature,
+                )
 
                 return data
             }

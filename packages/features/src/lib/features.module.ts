@@ -28,7 +28,7 @@ export class FeatureModule implements OnApplicationBootstrap {
                     provide: FEATURE_CONFIG,
                     useValue: config,
                 },
-                FeatureBus
+                FeatureBus,
             ],
         }
     }

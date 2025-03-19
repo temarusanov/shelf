@@ -12,7 +12,7 @@ export class ExplorerService {
 
     explore() {
         const modules = [...this.modulesContainer.values()]
-        
+
         const features = this.flatMap<IFeatureHandler>(modules, (instance) =>
             this.filterByMetadataKey(instance, FEATURE_HANDLER_METADATA),
         )
