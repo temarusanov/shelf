@@ -11,11 +11,11 @@ import {
     FeatureConfig,
     patchFeatureConfig,
 } from './configs/feature-module.config'
-import { FeatureBus } from './services/bus.service'
-import { FeatureExplorerService } from './services/explorer.service'
+import { FeaturesBus } from './services/bus.service'
+import { FeaturesExplorerService } from './services/explorer.service'
 
 @Module({})
-export class FeatureModule implements OnApplicationBootstrap {
+export class FeaturesModule implements OnApplicationBootstrap {
     static forRoot(options: typeof FEATURE_OPTIONS_TYPE): DynamicModule {
         const config = patchFeatureConfig(options)
 
@@ -24,13 +24,13 @@ export class FeatureModule implements OnApplicationBootstrap {
                 provide: FEATURE_CONFIG,
                 useValue: config,
             },
-            FeatureBus,
-            FeatureExplorerService,
+            FeaturesBus,
+            FeaturesExplorerService,
         ]
 
         return {
             global: true,
-            module: FeatureModule,
+            module: FeaturesModule,
             providers,
             exports: providers,
         }
@@ -39,8 +39,8 @@ export class FeatureModule implements OnApplicationBootstrap {
     constructor(
         @Inject(FEATURE_CONFIG)
         private readonly config: FeatureConfig,
-        private readonly explorerService: FeatureExplorerService,
-        private readonly bus: FeatureBus,
+        private readonly explorerService: FeaturesExplorerService,
+        private readonly bus: FeaturesBus,
     ) {}
 
     onApplicationBootstrap() {

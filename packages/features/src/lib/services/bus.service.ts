@@ -22,10 +22,10 @@ import {
 } from '../interfaces/features.interfaces'
 
 @Injectable()
-export class FeatureBus<FeatureBase extends IFeature = IFeature>
+export class FeaturesBus<FeatureBase extends IFeature = IFeature>
     implements IFeatureBus<FeatureBase>
 {
-    private readonly logger = new Logger(FeatureBus.name)
+    private readonly logger = new Logger(FeaturesBus.name)
     private handlers = new Map<
         string,
         (feature: FeatureBase, asyncContext?: AsyncContext) => any

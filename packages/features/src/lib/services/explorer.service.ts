@@ -7,7 +7,7 @@ import { FEATURE_HANDLER_METADATA } from '../decorators/feature.decorator'
 import { IFeatureHandler } from '../interfaces/features.interfaces'
 
 @Injectable()
-export class FeatureExplorerService {
+export class FeaturesExplorerService {
     constructor(private readonly modulesContainer: ModulesContainer) {}
 
     explore() {
