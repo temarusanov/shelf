@@ -24,6 +24,7 @@
     "noImplicitAny": false,
     "paths": {
       "@shelfjs/events": ["packages/events/src/index.ts"],
+      "@shelfjs/features": ["packages/features/src/index.ts"],
       "@shelfjs/health-checks": ["packages/health-checks/src/index.ts"],
       "@shelfjs/logger": ["packages/logger/src/index.ts"],
       "@shelfjs/nats": ["packages/nats/src/index.ts"],
