@@ -19,16 +19,20 @@ export class FeatureModule implements OnApplicationBootstrap {
     static forRoot(options: typeof FEATURE_OPTIONS_TYPE): DynamicModule {
         const config = patchFeatureConfig(options)
 
+        const providers = [
+            {
+                provide: FEATURE_CONFIG,
+                useValue: config,
+            },
+            FeatureBus,
+            FeatureExplorerService,
+        ]
+
         return {
             global: true,
             module: FeatureModule,
-            providers: [
-                {
-                    provide: FEATURE_CONFIG,
-                    useValue: config,
-                },
-                FeatureBus,
-            ],
+            providers,
+            exports: providers,
         }
     }
 
