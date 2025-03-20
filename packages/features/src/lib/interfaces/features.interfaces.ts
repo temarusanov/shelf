@@ -34,7 +34,6 @@ export type FeatureHandlerType<T extends IFeature = IFeature> = Type<
 >
 
 export interface IFeatureBus<FeatureBase extends IFeature = IFeature> {
-    execute<R = void>(feature: Feature<R>): Promise<R>
     execute<T extends FeatureBase, R = any>(feature: T): Promise<R>
 
     register(handlers: InstanceWrapper<IFeatureHandler<FeatureBase>>[]): void

@@ -33,7 +33,6 @@ export class FeaturesBus<FeatureBase extends IFeature = IFeature>
         private readonly natsClient?: NatsClientService,
     ) {}
 
-    async execute<R = void>(feature: Feature<R>): Promise<R>
     async execute<T extends FeatureBase, R = any>(feature: T): Promise<R> {
         const featureId = this.getFeatureId(feature)
         const executeFn = this.handlers.get(featureId)
