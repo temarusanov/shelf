@@ -58,7 +58,7 @@ nx g @shelfjs/schematics:nest-module <module-name> <path from root>
 
 ### Nest CQRS
 
-Generate nest command and queries with additional GraphQL resolver
+Generate nest command and queries with additional GraphQL/REST controllers
 
 Usage:
 
@@ -68,6 +68,26 @@ Usage:
 
 `--test` generate Jest tests
 
+`--zod` generate ZOD validation
+
 ```bash
 nx g @shelfjs/schematics:nest-cqrs <command/query> <name> <path from root>
+```
+
+### Nest features
+
+Generate nest feature with additional GraphQL/REST controllers (from @shelfjs/features)
+
+Usage:
+
+`--graphql` generate GraphQL resolver
+
+`--rest` generate REST controller
+
+`--test` generate Jest tests
+
+`--zod` generate ZOD validation
+
+```bash
+nx g @shelfjs/schematics:nest-feature <command/query> <name> <path from root>
 ```

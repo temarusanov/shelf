@@ -10,6 +10,13 @@
       "x-type": "library",
       "description": "Create CQRS files"
     },
+    "nest-feature": {
+      "factory": "./src/generators/nest-feature/generator",
+      "schema": "./src/generators/nest-feature/schema.json",
+      "aliases": ["feature"],
+      "x-type": "library",
+      "description": "Create feature files from @shelfjs/features"
+    },
     "nest-module": {
       "factory": "./src/generators/nest-module/generator",
       "schema": "./src/generators/nest-module/schema.json",
@@ -23,6 +30,11 @@
       "factory": "./src/generators/nest-cqrs/generator",
       "schema": "./src/generators/nest-cqrs/schema.json",
       "description": "Create CQRS files"
+    },
+    "nest-feature": {
+      "factory": "./src/generators/nest-feature/generator",
+      "schema": "./src/generators/nest-feature/schema.json",
+      "description": "Create feature files from @shelfjs/features"
     },
     "nest-module": {
       "factory": "./src/generators/nest-module/generator",

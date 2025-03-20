@@ -1,0 +1,35 @@
+<% if (zod === true) { %>
+    import { z } from 'zod'
+
+    export const <%= name.className %>FeatureInputSchema = z.object({
+        userId: z.string(),
+    })
+
+    <% if (type.name === 'query') { %>
+        export const <%= name.className %>FeatureOutputSchema = z.object({
+            id: z.string(),
+        })
+    <% } else { %>
+        export const <%= name.className %>FeatureOutputSchema = z.boolean()
+    <% } %>
+
+    export class <%= name.className %>Feature {
+        constructor(readonly payload: z.infer<typeof <%= name.className %>FeatureInputSchema>) {}
+    }
+
+    export type <%= name.className %>FeatureResponse = z.infer<typeof <%= name.className %>FeatureOutputSchema>
+<% } else { %>
+    export class <%= name.className %>Feature {
+        constructor(readonly payload: {
+            userId: string
+        }) {}
+    }
+
+    <% if (type.name === 'query') { %>
+    export type <%= name.className %>FeatureResponse = {
+        id: string
+    }
+    <% } else { %>
+    export type <%= name.className %>FeatureResponse = boolean
+    <% } %>
+<% } %>

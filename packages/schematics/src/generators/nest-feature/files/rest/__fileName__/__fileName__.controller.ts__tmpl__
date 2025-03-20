@@ -1,0 +1,33 @@
+import { Controller, <% if (type.name === 'command') { %>Post, Body<% } else {%>Get, Query<% } %> } from "@nestjs/common";
+import { FeaturesBus } from '@shelfjs/features'
+
+import { <%= name.className %>Feature, <%= name.className %>FeatureResponse } from './<%= name.fileName %>.feature'
+
+
+export interface <%= name.className %>Payload {
+    userId: string
+}
+
+@Controller()
+export class <%= name.className %>Controller {
+    
+    constructor(private bus: FeaturesBus) {}
+
+    <% if (type.name === 'query') { %>
+      @Get('<%= name.fileName %>')
+      async <%= name.propertyName %>(@Query() input: <%= name.className %>Payload) {
+          return await this.bus.execute<<%= name.className %>Feature, <%= name.className %>FeatureResponse>(
+              new <%= name.className %>Feature(input),
+          )
+      }
+    <% } else { %>
+        @Post('<%= name.fileName %>')
+        async <%= name.propertyName %>(@Body() input: <%= name.className %>Payload) {
+            await this.bus.execute<<%= name.className %>Feature, <%= name.className %>FeatureResponse>(
+                new <%= name.className %>Feature(input),
+            )
+
+            return true
+        }
+    <% } %>
+}

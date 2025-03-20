@@ -1,0 +1,17 @@
+import { IFeatureHandler, Feature } from '@shelfjs/features'
+
+import {  <%= name.className %>Feature,  <%= name.className %>FeatureResponse } from './<%= name.fileName %>.feature'
+
+@Feature( <%= name.className %>Feature)
+export class  <%= name.className %>Handler implements IFeatureHandler< <%= name.className %>Feature,  <%= name.className %>FeatureResponse> {
+
+    // constructor(private service: unknown) {}
+
+    async execute({ payload }:  <%= name.className %>Feature) {
+        <% if (type.name === 'query') { %>
+        return { id: '0' }
+        <% } else { %>
+        return true
+        <% } %>
+    }
+}

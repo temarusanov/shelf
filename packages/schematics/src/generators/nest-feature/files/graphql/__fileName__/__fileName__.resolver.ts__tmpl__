@@ -1,0 +1,113 @@
+<% if (zod === true) { %>
+    import { FeaturesBus } from '@shelfjs/features'
+    import { 
+        Args,
+        <% if (type.name === 'command') { %>Mutation<% } else {%>Query<% } %>,
+        Resolver } from '@nestjs/graphql'
+    import {
+        generateInputTypeFromZod,
+        <% if (type.name === 'query') { %>generateObjectTypeFromZod,<% } %> 
+    } from 'zod-to-nestjs-graphql'
+
+
+    import { 
+        <%= name.className %>Feature, 
+        <%= name.className %>FeatureInputSchema, 
+        <% if (type.name === 'query') { %><%= name.className %>FeatureOutputSchema,<% } %> 
+        <%= name.className %>FeatureResponse
+    } from './<%= name.fileName %>.feature'
+
+    const InputType = generateInputTypeFromZod(
+        <%= name.className %>FeatureInputSchema,
+        {
+            name: '<%= name.className %>FeatureInput',
+        },
+    )
+
+    <% if (type.name === 'query') { %>
+        const OutputType = generateObjectTypeFromZod(
+            <%= name.className %>FeatureOutputSchema,
+            {
+                name: '<%= name.className %>FeatureOutput',
+            },
+        )
+    <% } %>
+
+    @Resolver()
+    export class  <%= name.className %>Resolver {
+        constructor(private bus: FeaturesBus) {}
+
+        <% if (type.name === 'query') { %>
+            @Query(() => OutputType)
+            async <%= name.propertyName %>(
+                @Args('input', { type: () => InputType })
+                input: typeof InputType,
+            ) {
+                return await this.bus.execute<<%= name.className %>Feature, <%= name.className %>FeatureResponse>(
+                    new <%= name.className %>Feature(input),
+                )
+            }
+        <% } else { %>
+            @Mutation(() => Boolean)
+            async <%= name.propertyName %>(
+                @Args('input', { type: () => InputType })
+                input: typeof InputType,
+            ) {
+                return await this.bus.execute<<%= name.className %>Feature, <%= name.className %>FeatureResponse>(
+                    new <%= name.className %>Feature(input),
+                )
+            }
+        <% } %>
+    }
+<% } else { %>
+    import { FeaturesBus } from '@shelfjs/features'
+    import {
+        Args,
+        Field,
+        ID,
+        InputType,
+        <% if (type.name === 'query') { %>ObjectType,<% } %>
+        <% if (type.name === 'command') { %>Mutation<% } else {%>Query<% } %>,
+        Resolver,
+    } from '@nestjs/graphql'
+
+    import { <%= name.className %>Feature, <%= name.className %>FeatureResponse } from './<%= name.fileName %>.feature'
+
+
+    @InputType()
+    export class  <%= name.className %>Input {
+        @Field(() => ID)
+        userId: string
+    }
+
+    <% if (type.name === 'query') { %>
+    @ObjectType()
+    export class  <%= name.className %>Type {
+        @Field(() => ID)
+        id: string
+    }
+
+    <% } %>
+    @Resolver()
+    export class  <%= name.className %>Resolver {
+        constructor(private bus: FeaturesBus) {}
+
+        <% if (type.name === 'query') { %>
+            @Query(() => <%= name.className %>Type)
+            async <%= name.propertyName %>(@Args('input') input: <%= name.className %>Input): Promise<<%= name.className %>Type> {
+                return await this.bus.execute<<%= name.className %>Feature, <%= name.className %>FeatureResponse>(
+                    new <%= name.className %>Feature(input),
+                )
+            }
+        <% } else { %>
+            @Mutation(() => Boolean)
+            async <%= name.propertyName %>(@Args('input') input: <%= name.className %>Input): Promise<boolean> {
+                await this.bus.execute<<%= name.className %>Feature, <%= name.className %>FeatureResponse>(
+                    new <%= name.className %>Feature(input),
+                )
+
+                return true
+            }
+        <% } %>
+    }
+<% } %>

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "NestCqrs",
+  "description": "Generate features using vertical slicing architecture pattern",
+  "type": "object",
+  "properties": {
+    "type": {
+      "description": "Type of CQRS: command or query",
+      "type": "string",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "enum": ["command", "query"],
+      "x-prompt": "What you want to generate: command or query?"
+    },
+    "name": {
+      "type": "string",
+      "description": "Feature name",
+      "$default": {
+        "$source": "argv",
+        "index": 1
+      },
+      "x-prompt": "What name of the features?"
+    },
+    "path": {
+      "type": "string",
+      "description": "Path to store your feature",
+      "$default": {
+        "$source": "argv",
+        "index": 2
+      },
+      "x-prompt": "What path to store result?"
+    },
+    "graphql": {
+      "description": "Generate GraphQL resolver",
+      "type": "boolean",
+      "default": false
+    },
+    "zod": {
+      "description": "Use Zod validation",
+      "type": "boolean",
+      "default": false
+    },
+    "rest": {
+      "description": "Generate REST controller",
+      "type": "boolean",
+      "default": false
+    },
+    "test": {
+      "description": "Generate Jest test",
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": ["name", "path", "type"]
+}
