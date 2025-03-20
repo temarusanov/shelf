@@ -95,7 +95,7 @@ export class FeaturesBus<FeatureBase extends IFeature = IFeature>
         if (!instance.execute) {
             throw new InvalidFeatureHandlerException()
         }
-        
+
         this.handlers.set(id, (feature) =>
             instance.execute(feature as T & Feature<unknown>),
         )

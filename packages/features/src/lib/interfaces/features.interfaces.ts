@@ -33,13 +33,11 @@ export type FeatureHandlerType<T extends IFeature = IFeature> = Type<
     IFeatureHandler<T>
 >
 
-export abstract class IFeatureBus<FeatureBase extends IFeature = IFeature> {
-    abstract execute<R = void>(feature: Feature<R>): Promise<R>
-    abstract execute<T extends FeatureBase, R = any>(feature: T): Promise<R>
+export interface IFeatureBus<FeatureBase extends IFeature = IFeature> {
+    execute<R = void>(feature: Feature<R>): Promise<R>
+    execute<T extends FeatureBase, R = any>(feature: T): Promise<R>
 
-    abstract register(
-        handlers: InstanceWrapper<IFeatureHandler<FeatureBase>>[],
-    ): void
+    register(handlers: InstanceWrapper<IFeatureHandler<FeatureBase>>[]): void
 }
 
 export class InvalidFeatureHandlerException extends Error {
