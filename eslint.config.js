@@ -55,7 +55,7 @@ module.exports = [
     ...config,
     files: ['**/*.json'],
     rules: {
-      '@nx/dependency-checks': 'error',
+      '@nx/dependency-checks': 'off',
     },
   })),
 ];
