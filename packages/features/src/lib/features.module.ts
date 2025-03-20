@@ -46,7 +46,6 @@ export class FeaturesModule implements OnApplicationBootstrap {
     onApplicationBootstrap() {
         if (this.config.explore) {
             const features = this.explorerService.explore()
-
             this.bus.register(features)
         }
     }

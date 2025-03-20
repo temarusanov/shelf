@@ -1,5 +1,4 @@
 import { Inject, Injectable, Logger, Optional, Type } from '@nestjs/common'
-import { ModuleRef } from '@nestjs/core'
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper'
 import { decodeMessage, encodeMessage, NatsClientService } from '@shelfjs/nats'
 
@@ -9,7 +8,6 @@ import {
     FEATURE_METADATA,
 } from '../decorators/feature.decorator'
 import {
-    AsyncContext,
     Feature,
     FeatureHandlerNotFoundException,
     FeatureHandlerType,
@@ -26,57 +24,20 @@ export class FeaturesBus<FeatureBase extends IFeature = IFeature>
     implements IFeatureBus<FeatureBase>
 {
     private readonly logger = new Logger(FeaturesBus.name)
-    private handlers = new Map<
-        string,
-        (feature: FeatureBase, asyncContext?: AsyncContext) => any
-    >()
+    private handlers = new Map<string, (feature: FeatureBase) => any>()
 
     constructor(
-        private readonly moduleRef: ModuleRef,
         @Inject(FEATURE_CONFIG)
         private readonly config: FeatureConfig,
         @Optional()
         private readonly natsClient?: NatsClientService,
     ) {}
 
-    /**
-     * Executes a feature.
-     * @param feature The feature to execute.
-     * @returns A promise that, when resolved, will contain the result returned by the feature's handler.
-     */
     async execute<R = void>(feature: Feature<R>): Promise<R>
-    /**
-     * Executes a feature.
-     * @param feature The feature to execute.
-     * @param context The context to use. Optional.
-     * @returns A promise that, when resolved, will contain the result returned by the feature's handler.
-     */
-    async execute<R = void>(
-        feature: Feature<R>,
-        context?: AsyncContext,
-    ): Promise<R>
-    /**
-     * Executes a feature.
-     * @param feature The feature to execute.
-     * @param context The context to use. Optional.
-     * @returns A promise that, when resolved, will contain the result returned by the feature's handler.
-     */
-    async execute<T extends FeatureBase, R = any>(
-        feature: T,
-        context?: AsyncContext,
-    ): Promise<R>
-    /**
-     * Executes a feature.
-     * @param feature The feature to execute.
-     * @param context The context to use. Optional.
-     * @returns A promise that, when resolved, will contain the result returned by the feature's handler.
-     */
-    async execute<T extends FeatureBase, R = any>(
-        feature: T,
-        context?: AsyncContext,
-    ): Promise<R> {
+    async execute<T extends FeatureBase, R = any>(feature: T): Promise<R> {
         const featureId = this.getFeatureId(feature)
         const executeFn = this.handlers.get(featureId)
+
         if (!executeFn) {
             if (this.config.externalBus === 'nats') {
                 if (!this.natsClient) {
@@ -94,7 +55,8 @@ export class FeaturesBus<FeatureBase extends IFeature = IFeature>
             const featureName = this.getFeatureName(feature)
             throw new FeatureHandlerNotFoundException(featureName)
         }
-        return executeFn(feature, context)
+
+        return executeFn(feature)
     }
 
     register(handlers: InstanceWrapper<IFeatureHandler<FeatureBase>>[] = []) {
@@ -105,14 +67,15 @@ export class FeaturesBus<FeatureBase extends IFeature = IFeature>
         handler: InstanceWrapper<IFeatureHandler<FeatureBase>>,
     ) {
         const typeRef = handler.metatype as Type<IFeatureHandler<FeatureBase>>
-        const target = this.reflectFeatureId(typeRef)
+        //const target = this.reflectFeatureId(typeRef)
+        const target = handler.name
         if (!target) {
             throw new InvalidFeatureHandlerException()
         }
 
         if (this.handlers.has(target)) {
             this.logger.warn(
-                `Feature handler [${typeRef.name}] is already registered. Overriding previously registered handler.`,
+                `Feature handler [${target}] is already registered. Overriding previously registered handler.`,
             )
         }
 
@@ -123,44 +86,23 @@ export class FeaturesBus<FeatureBase extends IFeature = IFeature>
         }
     }
 
-    bindLocal<T extends FeatureBase>(
+    private bindLocal<T extends FeatureBase>(
         handler: InstanceWrapper<IFeatureHandler<T>>,
         id: string,
     ) {
-        if (handler.isDependencyTreeStatic()) {
-            const instance = handler.instance
-            if (!instance.execute) {
-                throw new InvalidFeatureHandlerException()
-            }
-            this.handlers.set(id, (feature) =>
-                instance.execute(feature as T & Feature<unknown>),
-            )
-            return
+        const instance = handler.instance
+
+        if (!instance.execute) {
+            throw new InvalidFeatureHandlerException()
         }
-
-        this.handlers.set(id, async (feature: T, context?: AsyncContext) => {
-            context ??= AsyncContext.of(feature) ?? new AsyncContext()
-
-            if (!AsyncContext.isAttached(context)) {
-                // Features returned by sagas may already have an async context set
-                // and a corresponding request provider registered.
-                this.moduleRef.registerRequestByContextId(context, context.id)
-
-                context.attachTo(feature)
-            }
-
-            const instance = await this.moduleRef.resolve(
-                handler.metatype!,
-                context.id,
-                {
-                    strict: false,
-                },
-            )
-            return instance.execute(feature as T & Feature<unknown>)
-        })
+        
+        this.handlers.set(id, (feature) =>
+            instance.execute(feature as T & Feature<unknown>),
+        )
+        return
     }
 
-    bindNATS<T extends FeatureBase>(
+    private bindNATS<T extends FeatureBase>(
         handler: InstanceWrapper<IFeatureHandler<T>>,
         id: string,
     ) {

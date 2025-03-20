@@ -12,6 +12,7 @@ export const Feature = (
     feature: IFeature | (new (...args: any[]) => IFeature),
     options?: InjectableOptions,
 ): ClassDecorator => {
+    // eslint-disable-next-line @typescript-eslint/ban-types
     return (target: Function) => {
         if (!Reflect.hasOwnMetadata(FEATURE_METADATA, feature)) {
             Reflect.defineMetadata(
