@@ -34,8 +34,8 @@ export class FeaturesBus<FeatureBase extends IFeature = IFeature>
     ) {}
 
     async execute<T extends FeatureBase, R = any>(feature: T): Promise<R> {
-        const featureId = this.getFeatureId(feature)
-        const executeFn = this.handlers.get(featureId)
+        const featureName = this.getFeatureName(feature)
+        const executeFn = this.handlers.get(featureName)
 
         if (!executeFn) {
             if (this.config.externalBus === 'nats') {
@@ -44,14 +44,13 @@ export class FeaturesBus<FeatureBase extends IFeature = IFeature>
                 }
 
                 const { data } = await this.natsClient.request<T, R>(
-                    featureId,
+                    featureName,
                     feature,
                 )
 
                 return data
             }
 
-            const featureName = this.getFeatureName(feature)
             throw new FeatureHandlerNotFoundException(featureName)
         }
 
