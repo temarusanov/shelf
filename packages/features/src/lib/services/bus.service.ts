@@ -66,15 +66,21 @@ export class FeaturesBus<FeatureBase extends IFeature = IFeature>
         handler: InstanceWrapper<IFeatureHandler<FeatureBase>>,
     ) {
         const typeRef = handler.metatype as Type<IFeatureHandler<FeatureBase>>
-        //const target = this.reflectFeatureId(typeRef)
-        const target = handler.name
+
+        const feature: Type<IFeature> = Reflect.getMetadata(
+            FEATURE_HANDLER_METADATA,
+            typeRef,
+        )
+
+        const target = feature.name
+
         if (!target) {
             throw new InvalidFeatureHandlerException()
         }
 
         if (this.handlers.has(target)) {
             this.logger.warn(
-                `Feature handler [${target}] is already registered. Overriding previously registered handler.`,
+                `Feature [${target}] is already registered. Overriding previously registered handler.`,
             )
         }
 
