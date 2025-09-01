@@ -41,7 +41,7 @@
     "testcontainers": "^10.7.1",
     "ts-jest": "29.1.2",
     "ts-node": "10.9.2",
-    "typescript": "5.5.4",
+    "typescript": "5.8.3",
     "verdaccio": "^5.29.2"
   },
   "workspaces": [
