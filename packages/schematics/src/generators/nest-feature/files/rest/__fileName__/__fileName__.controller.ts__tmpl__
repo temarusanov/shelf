@@ -1,4 +1,5 @@
 import { Controller, <% if (type.name === 'command') { %>Post, Body<% } else {%>Get, Query<% } %> } from "@nestjs/common";
+import { ApiTags } from '@nestjs/swagger'
 import { FeaturesBus } from '@shelfjs/features'
 import { createZodDto, ZodResponse } from 'nestjs-zod'
 
@@ -20,6 +21,7 @@ export class <%= name.className %>Controller {
 
     <% if (type.name === 'query') { %>
       @Get('<%= name.fileName %>')
+      @ApiTags('API')
       @ZodResponse({ type: <%= name.className %>Output })
       async <%= name.propertyName %>(@Query() input: <%= name.className %>Input) {
           return await this.bus.execute<<%= name.className %>Feature, <%= name.className %>FeatureResponse>(
@@ -28,6 +30,7 @@ export class <%= name.className %>Controller {
       }
     <% } else { %>
         @Post('<%= name.fileName %>')
+        @ApiTags('API')
         @ZodResponse({ type: <%= name.className %>Output })
         async <%= name.propertyName %>(@Body() input: <%= name.className %>Input) {
             return await this.bus.execute<<%= name.className %>Feature, <%= name.className %>FeatureResponse>(
