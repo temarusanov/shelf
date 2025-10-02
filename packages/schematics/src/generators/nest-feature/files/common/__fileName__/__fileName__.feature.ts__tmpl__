@@ -10,7 +10,9 @@
             id: z.string(),
         })
     <% } else { %>
-        export const <%= name.className %>FeatureOutputSchema = z.boolean()
+        export const <%= name.className %>FeatureOutputSchema = z.object({
+            success: z.boolean()
+        })
     <% } %>
 
     export class <%= name.className %>Feature {
@@ -30,6 +32,8 @@
         id: string
     }
     <% } else { %>
-    export type <%= name.className %>FeatureResponse = boolean
+    export type <%= name.className %>FeatureResponse = {
+        success: boolean
+    }
     <% } %>
 <% } %>
