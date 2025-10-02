@@ -1,12 +1,17 @@
 import { Controller, <% if (type.name === 'command') { %>Post, Body<% } else {%>Get, Query<% } %> } from "@nestjs/common";
 import { FeaturesBus } from '@shelfjs/features'
+import { createZodDto, ZodResponse } from 'nestjs-zod'
 
-import { <%= name.className %>Feature, <%= name.className %>FeatureResponse } from './<%= name.fileName %>.feature'
+import { 
+    <%= name.className %>Feature, 
+    <%= name.className %>FeatureInputSchema, 
+    <%= name.className %>FeatureOutputSchema,
+    <%= name.className %>FeatureResponse,
+} from './<%= name.fileName %>.feature'
 
+class <%= name.className %>Input extends createZodDto(<%= name.className %>FeatureInputSchema) {}
 
-export interface <%= name.className %>Payload {
-    userId: string
-}
+class <%= name.className %>Output extends createZodDto(<%= name.className %>FeatureOutputSchema) {}
 
 @Controller()
 export class <%= name.className %>Controller {
@@ -15,19 +20,19 @@ export class <%= name.className %>Controller {
 
     <% if (type.name === 'query') { %>
       @Get('<%= name.fileName %>')
-      async <%= name.propertyName %>(@Query() input: <%= name.className %>Payload) {
+      @ZodResponse({ type: <%= name.className %>Output })
+      async <%= name.propertyName %>(@Query() input: <%= name.className %>Input) {
           return await this.bus.execute<<%= name.className %>Feature, <%= name.className %>FeatureResponse>(
               new <%= name.className %>Feature(input),
           )
       }
     <% } else { %>
         @Post('<%= name.fileName %>')
-        async <%= name.propertyName %>(@Body() input: <%= name.className %>Payload) {
-            await this.bus.execute<<%= name.className %>Feature, <%= name.className %>FeatureResponse>(
+        @ZodResponse({ type: <%= name.className %>Output })
+        async <%= name.propertyName %>(@Body() input: <%= name.className %>Input) {
+            return await this.bus.execute<<%= name.className %>Feature, <%= name.className %>FeatureResponse>(
                 new <%= name.className %>Feature(input),
             )
-
-            return true
         }
     <% } %>
 }
