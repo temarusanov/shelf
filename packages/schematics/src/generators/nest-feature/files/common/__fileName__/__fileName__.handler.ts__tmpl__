@@ -11,7 +11,7 @@ export class  <%= name.className %>Handler implements IFeatureHandler< <%= name.
         <% if (type.name === 'query') { %>
         return { id: '0' }
         <% } else { %>
-        return true
+        return { success: true }
         <% } %>
     }
 }
